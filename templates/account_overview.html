@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}Account Overview{% endblock %}
+
+
+{% block content %}
+    <div class="account-container">
+
+        <h1>Account Information</h1>
+
+        <!-- BASIC INFO -->
+        <div class="info-card">
+            <h2>Personal Details</h2>
+
+            <div class="row">
+                <span>Name</span>
+                <span>{{ current_user.name }} {{ current_user.surname }}</span>
+            </div>
+
+            <div class="row">
+                <span>Email</span>
+                <span>{{ current_user.email }}</span>
+            </div>
+
+            <div class="row">
+                <span>Phone</span>
+                <span>{{ current_user.phonenumber }}</span>
+            </div>
+
+            <div class="row">
+                <span>Unique Account Number</span>
+                <span class="accountColor"># RQX {{ current_user.account_number }}</span>
+            </div>
+
+            <div class="row">
+                <span>Security Code</span>
+                <span class="accountColor"># {{ current_user.security_code }}</span>
+            </div>
+
+            <div class="row">
+                <span>Account Status</span>
+                <span class="status {{ 'active' if user.is_active else 'inactive' }}">
+                    {{ "Active" if user.is_active else "Inactive" }}
+                </span>
+            </div>
+
+            <div class="row">
+                <span>Joined</span>
+                <span>{{ current_user.created.strftime('%Y-%m-%d') }}</span>
+            </div>
+        </div>
+
+        <!-- FINANCIAL INFO -->
+        <div class="info-card">
+            <h2>Financial Summary</h2>
+
+            <div class="row">
+                <span>Total Balance</span>
+                <span class="highlight">{{ total_balance | money }}</span>
+            </div>
+
+            <div class="row">
+                <span>Total Deposits</span>
+                <span class="highlight">{{ total_deposit | money }}</span>
+            </div>
+
+            <div class="row">
+                <span>Total Withdrawals</span>
+                <span class="highlight">{{ total_withdraw | money }}</span>
+            </div>
+
+            <div class="row">
+                <span>Total PNL</span>
+                <span class="{% if total_pnl >= 0 %}pnl-positive{% else %}pnl-negative{% endif %}">{{ total_pnl | money }}</span>
+            </div>
+
+            <div class="row">
+                <span>Open Trades</span>
+                <span class="accountColor">{{ open_trades }}</span>
+            </div>
+
+            <div class="row">
+                <span>Closed Trades</span>
+                <span class="accountColor">{{ closed_trades }}</span>
+            </div>
+
+            <div class="row">
+                <span>Total Equity</span>
+                <span class="highlight">{{ total_balance | money }}</span>
+            </div>
+
+            <div class="row">
+                <span>Margin Type</span>
+                <span class="highlight">{{ current_user.margin_type }}</span>
+            </div>
+
+            <div class="row">
+                <span>Margin Rate</span>
+                <span class="highlight">{{ current_user.margin_rate }}</span>
+            </div>
+
+            <div class="row">
+                <span>Margin Level</span>
+                <span class="highlight">{{ current_user.margin_level }}</span>
+            </div>
+
+            <div class="row">
+                <span>Leverage</span>
+                <span class="highlight">1:{{ current_user.leverage }}</span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="dashboardRedirect">
+        <a href="{{ url_for('dashboard') }}">DASHBOARD</a>
+    </div>
+
+    
+{% endblock %}

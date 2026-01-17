@@ -1,0 +1,96 @@
+{% extends 'base.html' %}   
+
+{% block title %}
+CONTACT
+{% endblock %}
+
+
+{% block content %}
+
+<div class="contact-container">
+
+    <!-- Left -->
+    <div class="contact-info">
+        <h1>Contact Us</h1>
+        <p>
+            Have questions about trading, investments, or your account?
+            Our support team is available to help you.
+        </p>
+    
+        <div class="info-item">
+            <strong>Phone</strong>
+            <p>US</p>
+            <span>+19043315424</span>
+            <p>Canada</p>
+            <span>+15065265735</span>
+            <p>UK</p>
+            <span>+447446195758</span>
+        </div>
+
+        <div class="info-item">
+            <strong>Email</strong>
+            <span>support@rootquantumx.com</span>
+            <span>info@rootquantumx.com</span>
+        </div>
+    
+        <div class="info-item">
+            <strong>Support Hours</strong>
+            <span>24/7 Online Support</span>
+        </div>
+    
+        <div class="info-item">
+            <strong>Service</strong>
+            <span>Global – Remote Operations</span>
+        </div>
+
+        <div class="info-item">
+            <strong>Address</strong>
+            <span>Downing Street, E40 RB2, London, UK.</span>
+        </div>
+
+    </div>
+    
+    <!-- Right -->
+    <div class="contact-form">
+        <h1>Send a Message</h1>
+
+        <form method="POST">
+            <label>Name</label>
+            <input type="text" name="name" value="{{ current_user.name if current_user.is_authenticated else '' }}" required>
+    
+            <label>Email</label>
+            <input type="email" name="email" value="{{ current_user.email if current_user.is_authenticated else '' }}" required>
+    
+            <label>Message</label>
+            <textarea name="message" rows="5" required></textarea>
+    
+            <button type="submit">Send Message</button>
+        </form>
+    
+    </div>
+</div>
+    
+
+<!-- FLEXCONTAINERS-IMAGE-SECTION -->
+<div class="features">
+    <div class="feature-item">
+        <img src="{{url_for('static', filename='images/templates6.jpeg')}}" alt="Feature 1">
+        <h3>Fast Execution</h3>
+        <p>Experience lightning-fast trade execution powered by advanced servers.</p>
+    </div>
+    
+    <div class="feature-item">
+        <img src="{{url_for('static', filename='images/templates5.jpg')}}" alt="Feature 2">
+        <h3>AI Analytics</h3>
+        <p>Get powerful insights using quantum-enhanced trading algorithms and modern data.</p>
+    </div>
+    
+    <div class="feature-item">
+        <img src="{{url_for('static', filename='images/templates3.jpeg')}}" alt="Feature 3">
+        <h3>Secure Wallet</h3>
+        <p>Keep your funds protected with advanced and multi-layer encrypted security protocols.</p>
+    </div>
+</div>
+
+    
+{% endblock %}

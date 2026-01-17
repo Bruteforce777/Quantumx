@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:weight@100;200;300;400;600;800&display=swap" rel="stylesheet"/>
+    <script src="https://kit.fontawesome.com/a6765046e2.js" crossorigin="anonymous"></script>
+    <link rel="fontawesome" href="{{ url_for('static' , filename='a6765046e2.js')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='templates')}}">
+    <title>{% block title %}DASHBOARD{% endblock %}</title>
+</head>
+<body>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-wrapper">
+                {% for category, message in messages %}
+                    <div class="flash flash-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}    
+            </div>
+        {% endif %}
+    {% endwith %}     
+
+    <div class="dashboard-links-wrapper">
+        
+        <div class="dashboardNav">  
+            
+            <div class="navFlex-1">
+                <button class="headerLogo sidebar-toggler">
+                    {{ current_user.name.strip()[0]|upper }}{{ current_user.surname.strip()[0]|upper }}
+                </button>
+                <div class="clientName">
+                    <h5>Hello {{current_user.name}} {{current_user.surname}}</h5> 
+                    <h5>Your Balance: <span class="bln-color">{{ total_balance | money }}</span></h5> 
+                </div>          
+            </div> 
+            <div class="ticker" aria-hidden="true">
+                <div class="ticker-track" id="ticker-track">
+                <!-- demo items; JS will duplicate to create continuous effect -->
+                    <div class="ticker-item"><span class="symbol">BTC/USD</span> <span class="price">$42,210</span> <span class="up">+1.8%</span></div>
+                    <div class="ticker-item"><span class="symbol">ETH/USD</span> <span class="price">$2,980</span> <span class="up">+0.6%</span></div>
+                    <div class="ticker-item"><span class="symbol">AAPL</span> <span class="price">$174.25</span> <span class="down">-0.4%</span></div>
+                    <div class="ticker-item"><span class="symbol">EUR/USD</span> <span class="price">$1.0852</span> <span class="up">+0.02%</span></div>
+                    <div class="ticker-item"><span class="symbol">XAU/USD</span> <span class="price">$2,160</span> <span class="down">-0.7%</span></div>
+                </div>
+            </div>
+        </div>
+        
+    
+        <div class="dashboard-content">
+            <aside class="sidebar">
+                
+                <ul class="nav-list primary-nav">
+                    <li class="nav-item">
+                        <a href="{{url_for('dashboard')}}" class="nav-link">
+                            <span class="nav-icon material-symbols"><i class="fa-brands fa-dashcube"></i></span>
+                            <span class="nav-label">DASHBOARD</span>
+                        </a>                   
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{url_for('settings')}}" class="nav-link">
+                            <span class="nav-icon material-symbols"><i class="fa-solid fa-gear"></i></span>
+                            <span class="nav-label">SETTINGS</span>
+                        </a>                
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a href="{{url_for('deposit')}}" class="nav-link">
+                            <span class="nav-icon material-symbols"><i class="fa-solid fa-download"></i></span>
+                            <span class="nav-label">DEPOSIT</span>
+                        </a>                           
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{url_for('withdrawal')}}" class="nav-link">
+                            <span class="nav-icon material-symbols"><i class="fa-solid fa-money-bill-transfer"></i></span>
+                            <span class="nav-label">WITHDRAWAL</span>
+                        </a>        
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{url_for('livemarket')}}" class="nav-link">
+                            <span class="nav-icon material-symbols"><i class="fa-solid fa-comments"></i></span>
+                            <span class="nav-label">LIVE MARKET</span>
+                        </a>                        
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{url_for('helpcenter')}}" class="nav-link">
+                            <span class="nav-icon material-symbols"><i class="fa-solid fa-hands-holding-child"></i></span>
+                            <span class="nav-label">HELP CENTER</span>
+                        </a>                            
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{url_for('upload')}}" class="nav-link">
+                            <span class="nav-icon material-symbols"><i class="fa-solid fa-file-import"></i></span>
+                            <span class="nav-label">UPLOAD</span>
+                        </a>                            
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{url_for('analytic')}}" class="nav-link">
+                            <span class="nav-icon material-symbols"><i class="fa-solid fa-chart-bar"></i></span>
+                            <span class="nav-label">ANALYTIC</span>
+                        </a>                            
+                    </li>
+                </ul>
+                <ul class="nav-list secondary-nav">
+                    <li class="nav-item">
+                        <a href="{{url_for('account_overview')}}" class="nav-link">
+                            <span class="nav-icon material-symbols"><i class="fa-solid fa-address-card"></i></span>
+                            <span class="nav-label">PROFILE</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{url_for('logout')}}" class="nav-link">
+                            <span class="nav-icon material-symbols"><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
+                            <span class="nav-label">LOG OUT</span>   
+                        </a>        
+                    </li>
+                </ul>
+            
+            </aside>
+    
+        </div>
+    
+    
+        <div class="chart-scroll">
+    
+            <div class="crypto-chart" id="crypto-chart">
+                <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+                <script type="text/javascript">
+                    new TradingView.widget({
+                        "width": "100%",
+                        "height": 500,
+                        "symbol": "BINANCE:BTCUSDT",
+                        "interval": "15",
+                        "timezone": "Etc/UTC",
+                        "theme": "dark",
+                        "style": "1",
+                        "locale": "en",
+                        "toolbar_bg": "#f1f3f6",
+                        "enable_publishing": false,
+                        "allow_symbol_change": true,
+                        "container_id": "crypto-chart"
+                    });
+                </script>
+            </div>
+        </div>
+    
+        <div class="position-wrapper">
+    
+            <input type="checkbox" id="panel-toggle" hidden>
+            <label for="panel-toggle" class="toggle-icon">
+                OPEN NEW POSITION <i class="fa-solid fa-arrow-up-from-bracket"></i>
+            </label>
+                
+            <div class="toggle-panel">   
+                <form action="{{url_for('open_trade')}}" method="POST">                       
+                    <label for="symbol">CHOOSE ASSET</label>
+                    <input type="text" name="symbol" placeholder="AAPL" required><br>
+        
+                    <label for="quantity">VOLUME</label>
+                    <input type="number" step="any" name="quantity" placeholder="0.01" required><br>
+        
+                    <label for="side">SIDE</label>
+                    <select class="side-input" name="side" required>
+                        <option value="buy">BUY</option>
+                        <option value="sell">SELL</option>
+                    </select><br>
+                    <button class="flex-btn" type="submit">OPEN TRADE</button>
+                </form>    
+                
+            </div> 
+    
+        </div>
+    
+        <div class="table-body">
+    
+            <h4>OPEN TRADES</h4>
+    
+            <div class="table-wrapper">
+            
+                {% if trades %}
+                <table border="1" cellpadding="5" cellspacing="0" class="trade-table">
+                    <thead>
+                        <tr>
+                            <th>ASSET</th>
+                            <th>SIDE</th>
+                            <th>ENTRY PRICE</th>
+                            <th>CURRENT PRICE</th>
+                            <th>PNL</th>
+                            <th>STATUS</th>
+                            <th>ACTION</th>
+                            <th>OPEN DATE</th>
+                        </tr>
+                    </thead>
+            
+                    <tbody>
+                        {% for trade in trades if trade.status == 'open' %}
+            
+                        <tr>
+                            <td>{{ trade.symbol }}</td>
+                            <td>{{ trade.side| capitalize }}</td>
+                            <td>{{ trade.entry_price | money }}</td>
+                            <td>{{ trade.current_price | money }}
+                            <td>
+                                <p class="{% if trade.pnl >= 0 %}pnl-positive{% else %}pnl-negative{% endif %}">{{ trade.pnl
+                                    | money }}</p>
+                            </td>
+                            <td>{{ trade.status|upper }}</td>
+                            
+            
+                            <td>
+                                <form action="{{ url_for('close_trade', trade_id=trade.id) }}" method="POST"
+                                    style="display: inline;">
+                                    <button type="submit" class="close-btn"
+                                        onclick="return confirm('ARE YOU SURE YOU WANT TO CLOSE THIS TRADE?');">CLOSE</button>
+                                </form>
+            
+                            </td>
+                            <td>{{ trade.created.strftime('%d-%m-%Y %H:%M:%S') if trade.created else 'N/A' }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p>No Open Trades Yet</p>
+                {% endif %}
+            
+            </div>
+            
+            <h4>CLOSED TRADES</h4>
+    
+            <div class="table-wrapper">
+            
+                {% if closed_trades and closed_trades|count > 0 %}
+            
+                <table border="1" cellpadding="5" cellspacing="0" class="trade-table">
+                    <thead>
+                        <tr>
+                            <th>ASSET</th>
+                            <th>SIDE</th>
+                            <th>ENTRY PRICE</th>
+                            <th>CLOSED PRICE</th>
+                            <th>FINAL PNL</th>
+                            <th>STATUS</th>
+                            <th>CLOSED DATE</th>
+                        </tr>
+                    </thead>
+            
+                    <tbody>
+                        {% for trade in closed_trades %}
+            
+                        <tr>
+                            <td>{{ trade.symbol }}</td>
+                            <td>{{ trade.side| capitalize }}</td>
+                            <td>{{ trade.entry_price | money }}</td>
+                            <td>{{ trade.current_price | money }}</td>
+                            <td>
+                                <p class="{% if trade.pnl >= 0 %}pnl-positive{% else %}pnl-negative{% endif %}">{{ trade.pnl
+                                    | money }}</p>
+                            </td>
+                            <td>CLOSED</td>
+                            <td>{{ trade.created.strftime('%d-%m-%Y %H:%M:%S') if trade.created else 'N/A' }}</td>
+                        </tr>
+            
+                        {% endfor %}
+                    </tbody>
+            
+                </table>
+                {% else %}
+                <p>No Closed Trades Yet</p>
+                {% endif %}
+            </div>
+            
+        </div>   
+
+        <script>
+            setInternal( () => {
+                fetch("/heartbeat", { method: "POST"})
+            },30000)
+        </script>
+            
+        <script src="{{ url_for('static', filename='script.js') }}"></script>
+    
+</body>
+</html>
+
+
+
+
+

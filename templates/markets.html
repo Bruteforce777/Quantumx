@@ -1,0 +1,205 @@
+{% extends 'base.html' %}   
+
+
+{% block title %}
+MARKETS
+{% endblock %}
+
+
+
+{% block content %}
+
+<section class="markets-hero">
+    <h1>Explore Global Markets</h1>
+    <p>
+        Trade top assets across crypto, forex, stocks, indices, and commodities
+        using advanced tools and institutional-grade execution.
+    </p>
+    <a href="{{url_for('signup')}}" class="hero-btn">Start Trading</a>
+</section>
+    
+    <!-- MARKETS -->
+<section class="markets-section">
+    <div class="markets-grid">
+    
+        <div class="market-card">
+            <h3>Cryptocurrency</h3>
+            <p>Trade Bitcoin, Ethereum, and leading altcoins with real-time pricing and deep liquidity.</p>
+            <a href="#crypto">View Crypto Markets →</a>
+        </div>
+    
+        <div class="market-card">
+            <h3>Forex</h3>
+            <p>Access major, minor, and exotic currency pairs with tight spreads and fast execution.</p>
+            <a href="#forex">View Forex Markets →</a>
+        </div>
+    
+        <div class="market-card">
+            <h3>Stocks</h3>
+            <p>Invest in top global companies including US, EU, and emerging market equities.</p>
+            <a href="#stocks">View Stock Markets →</a>
+        </div>
+    
+        <div class="market-card">
+            <h3>Indices</h3>
+            <p>Diversify your portfolio by trading major indices like S&P 500, NASDAQ, and DAX.</p>
+            <a href="#indices">View Indices →</a>
+        </div>
+    
+        <div class="market-card">
+            <h3>Commodities</h3>
+            <p>Trade gold, oil, natural gas, and agricultural products with flexible leverage.</p>
+            <a href="#commodities">View Commodities →</a>
+        </div>
+    
+        <div class="market-card">
+            <h3>AI-Powered Trading</h3>
+            <p>Leverage algorithmic insights and automated strategies for smarter decisions.</p>
+            <a href="#futures">Learn More →</a>
+        </div>
+    
+    </div>
+</section>
+    
+    <!-- STATS -->
+<section class="market-stats">
+    <div class="stats-grid">
+        <div class="stat-box">
+            <h2>$4.8B+</h2>
+            <span>Monthly Trading Volume</span>
+        </div>
+        <div class="stat-box">
+            <h2>120+</h2>
+            <span>Tradable Assets</span>
+        </div>
+        <div class="stat-box">
+            <h2>24/7</h2>
+            <span>Market Access</span>
+        </div>
+        <div class="stat-box">
+            <h2>98.9%</h2>
+            <span>Execution Success</span>
+        </div>
+    </div>
+</section>
+    
+    <!-- CTA -->
+<section class="markets-cta">
+    <h3>Ready to Grow Your Capital?</h3>
+    <p>
+        Join thousands of traders using professional tools and secure infrastructure.
+        Start trading today with confidence.
+    </p>
+    <a href="{{url_for('signup')}}" class="cta-btn">Create Free Account</a>
+</section>
+    
+
+    
+    
+    <!-- FLEXCONTAINER-SECTION -->
+    <section class="flex-hero" id="forex">
+        <div class="flex-left">
+            <h2 class="sub-header">Forex</h2>
+            <p class="sub-text">
+                Trade the world’s largest market with tight spreads and 24/5 liquidity — ideal
+                for active traders seeking fast opportunities across global currency pairs.
+            </p>
+            <a href="{{url_for('signup')}}" class="hero-link">Start Trading</a>
+        </div>
+        
+        <div class="flex-right">
+            <img src="{{url_for('static', filename='images/money.png')}}" alt="Forex">
+        </div>    
+    </section>
+
+    <!-- FLEXCONTAINER-SECTION -->
+
+    <section class="flex-hero" id="crypto">
+        <div class="flex-left">
+            <h2 class="sub-header">Crypto</h2>
+            <p class="sub-text">
+                Access high-volatility opportunities and round-the-clock markets — trade major 
+                coins and emerging tokens with advanced tools and secure custody.
+            </p>
+            <a href="{{url_for('signup')}}" class="hero-link">Start Trading</a>
+        </div>
+        
+        <div class="flex-right">
+            <img src="{{url_for('static', filename='images/bitcoin-1.png')}}" alt="Crypto">
+        </div>      
+    </section>
+
+    <!-- FLEXCONTAINER-SECTION -->
+    
+    <section class="flex-hero" id="stocks">
+        <div class="flex-left">
+            <h2 class="sub-header">Stocks</h2>
+            <p class="sub-text">
+                Invest in blue-chips and high-growth names with instant execution, deep research, 
+                and flexible order types to match every investment style.
+            </p>
+            <a href="{{url_for('signup')}}" class="hero-link">Start Trading</a>
+        </div>
+        
+        <div class="flex-right">
+            <img src="{{url_for('static', filename='images/stock.png')}}" alt="Stock">
+        </div>      
+    </section>
+
+    <!-- FLEXCONTAINER-SECTION -->
+    
+    <section class="flex-hero" id="commodities">
+        <div class="flex-left">
+            <h2 class="sub-header">Commodities</h2>
+            <p class="sub-text">
+                Hedge or speculate on energy, metals, and softs — benefit from
+                diversified exposure and institutional-grade pricing for tangible assets.
+            </p>
+            <a href="{{url_for('signup')}}" class="hero-link">Start Trading</a>
+        </div>
+        
+        <div class="flex-right">
+            <img src="{{url_for('static', filename='images/comodity.png')}}" alt="Comodity">
+        </div>       
+    </section>
+
+    <!-- FLEXCONTAINER-SECTION -->
+    
+    <section class="flex-hero" id="indices">
+        <div class="flex-left">
+            <h2 class="sub-header">indices</h2>
+            <p class="sub-text">
+                Capture broad market moves with single trades on major indices — a simple
+                way to express macro views and diversify portfolios quickly.
+            </p>
+            <a href="{{url_for('signup')}}" class="hero-link">Start Trading</a>
+        </div>
+        
+        <div class="flex-right">
+            <img src="{{url_for('static', filename='images/indices.png')}}" alt="indices">
+        </div>     
+    </section>
+
+    <!-- FLEXCONTAINER-SECTION -->
+    
+    <section class="flex-hero" id="futures">
+        <div class="flex-left">
+            <h2 class="sub-header">Futures & Options</h2>
+            <p class="sub-text">
+                Leverage sophisticated strategies with derivatives — manage risk, amplify returns,
+                or hedge positions using margin-efficient futures and options tools.
+            </p>
+            <a href="{{url_for('signup')}}" class="hero-link">Start Trading</a>
+        </div>
+        
+        <div class="flex-right">
+            <img src="{{url_for('static', filename='images/tablet.png')}}" alt="Futures">
+        </div>     
+    </section>
+        
+</section>
+        
+
+    
+{% endblock %}
+

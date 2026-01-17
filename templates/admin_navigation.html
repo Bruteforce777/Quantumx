@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+   
+{% block title %}CLIENT NAVIGATION{% endblock %}
+
+{% block content %}     
+
+<div class="admin-dashboard-container">
+
+    <h1>CLIENT NAVIGATION AND DEVICES</h1>
+    <p class="subtitle">Clients Management Center</p>
+    <div class="dashboardRedirect">
+        <a href="{{ url_for('admin_dashboard') }}">ADMIN DASHBOARD</a>
+    </div>
+
+    <div class="visits-table-wrapper">
+
+        <table class="trade-table" border="1" cellpadding="5" cellspacing="0" >
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Path</th>
+                    <th>Device</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for visit in visits %}
+                <tr>
+                    <td>{{ visit.user_id or "Guest" }}</td>
+                    <td>{{ visit.user.name }}  {{ visit.user.surname }}</td>
+                    <td>{{ visit.path }}</td>
+                    <td>{{ visit.device_type }}</td>
+                    <td>{{ visit.timestamp.strftime("%Y-%m-%d %H:%M:%S") }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+        
+        
+    
+</div>
+{% endblock %}

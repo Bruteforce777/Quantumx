@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+  
+{% block content %}
+
+{% block title %} PRIVACY POLICY {% endblock %}
+
+<div class="legal-container">
+    <h1>Privacy Policy</h1>
+
+    <p>
+        Your privacy matters to us. This policy explains what data we collect,
+        how we use it, and how we protect it.
+    </p>
+
+    <h2>1. Information We Collect</h2>
+    <ul>
+        <li>Name, email, and account details</li>
+        <li>Device and browser information</li>
+        <li>Trading, deposit, and withdrawal activity</li>
+        <li>Page visits and usage data</li>
+    </ul>
+
+    <h2>2. How We Use Your Data</h2>
+    <ul>
+        <li>To operate and improve the platform</li>
+        <li>To secure accounts and prevent fraud</li>
+        <li>To provide customer support</li>
+    </ul>
+
+    <h2>3. Data Protection</h2>
+    <p>
+        We use reasonable technical and organizational measures to protect your data.
+        Passwords are securely hashed and never stored in plain text.
+    </p>
+
+    <h2>4. Data Sharing</h2>
+    <p>
+        We do <strong>not</strong> sell your personal data. Data may be shared only
+        where required by law or for platform security.
+    </p>
+
+    <h2>5. Cookies & Sessions</h2>
+    <p>
+        We use cookies and session storage to keep you logged in and improve your experience.
+    </p>
+
+    <h2>6. Your Rights</h2>
+    <p>
+        You may request access, correction, or deletion of your personal data
+        by contacting our support team.
+    </p>
+
+    <div class="legal-cta">
+        <a href="{{ url_for('contact') }}">Contact Support</a>
+    </div>
+</div>
+
+<div class="dashboardRedirect">
+    <a href="{{ url_for('home') }}">BACK TO HOME</a>
+</div>
+
+{% endblock %}

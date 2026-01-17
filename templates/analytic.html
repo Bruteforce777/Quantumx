@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %}  {{ name }} PROFILE  {% endblock %}
+
+{% block content %}
+
+<!-- HEADER -->
+<section class="analytics-top">
+    <h1>Analytics</h1>
+    <p>Real-time performance, exposure & strategy insights</p>
+    <a href="{{url_for('signup')}}">Analytic</a>
+</section>
+    
+    <!-- KPIs -->
+<section class="kpi-row">
+    <div class="kpi">
+        <label>Total Balance</label>
+        <strong>$12,480</strong>
+    </div>
+    <div class="kpi">
+        <label>Total PnL</label>
+        <strong class="up">+ $3,210</strong>
+    </div>
+    <div class="kpi">
+        <label>Open Trades</label>
+        <strong>4</strong>
+    </div>
+    <div class="kpi">
+        <label>Risk Level</label>
+        <strong class="down">High</strong>
+    </div>
+</section>
+    
+    <!-- MAIN -->
+<section class="analytics-main">
+    <div class="chart-panel">
+        
+    </div>
+    
+    <div class="side-panel">
+        <div class="insight">
+            <h4>Market Bias</h4>
+            <p>Current positions are 68% long, favoring crypto momentum trades.</p>
+        </div>
+        <div class="insight">
+             <h4>Risk Alert</h4>
+            <p>Leverage usage increased by 22% in the last 24 hours.</p>
+        </div>
+        <div class="insight">
+            <h4>Strategy Note</h4>
+            <p>Lower drawdown observed on trades below 5× leverage.</p>
+        </div>
+    </div>
+</section>
+    
+    <!-- TABLE -->
+    <section class="analytics-table">
+        <h2>Recent Trade Performance</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Asset</th>
+                    <th>Type</th>
+                    <th>Leverage</th>
+                    <th>PnL</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>BTCUSDT</td>
+                    <td>Long</td>
+                    <td>5×</td>
+                    <td class="up">+$420</td>
+                    <td>Closed</td>
+                </tr>
+                <tr>
+                    <td>ETHUSDT</td>
+                    <td>Short</td>
+                    <td>10×</td>
+                    <td class="down">-$180</td>
+                    <td>Open</td>
+                </tr>
+                <tr>
+                    <td>AAPL</td>
+                    <td>Long</td>
+                    <td>10×</td>
+                    <td class="up">$530</td>
+                    <td>Closed</td>
+                </tr>
+                <tr>
+                    <td>EURUSD</td>
+                    <td>Short</td>
+                    <td>5×</td>
+                    <td class="up">$20</td>
+                    <td>Open</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    
+    <!-- FOOTER CTA -->
+    <section class="analytics-footer">
+        <h3>Optimize Your Trading Decisions</h3>
+        <p>Use real-time analytics to refine strategies and control risk.</p>
+        <a href="{{url_for('dashboard')}}">Back to Dashboard</a>
+    </section>
+
+    <section class="flex-hero">
+        <div class="flex-left">
+            <h2 class="sub-header">Account Types</h2>
+            <p class="sub-text">
+                Access real-time market analytics, AI-powered signals, and
+                make predictable profits — all in one platform.
+            </p>
+            <a href="{{url_for('signup')}}" class="hero-link">Start Trading</a>
+        </div>
+        
+        <div class="flex-right">
+            <img src="{{url_for('static', filename='images/tab-phone.png')}}" alt="Trading Dashboard">
+        </div>   
+    </section>
+    
+{% endblock %}

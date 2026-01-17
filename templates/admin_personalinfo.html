@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %} PERSONAL INFO {% endblock %}
+
+{% block content %}
+<div class="profile-card">
+    <h2>Personal Information</h2>
+
+    <div class="persnoalinfoContainer">
+
+        <table class="trade-table" border="1" cellpadding="5" cellspacing="0" >
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Nationality</th>
+                    <th>City</th>
+                    <th>Address</th>
+                    <th>Zip Code</th>
+                    <th>Date Of Birth</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for info in infos %}
+                <tr>
+                    <td>{{ info.id }}</td>
+                    <td>{{ info.fullname }}</td>
+                    <td>{{ info.email }}</td>
+                    <td>{{ info.phone }}</td>
+                    <td>{{ info.nationality }}</td>
+                    <td>{{ info.city }}</td>
+                    <td>{{ info.address }}</td>
+                    <td>{{ info.zipcode }}</td>
+                    <td>{{ info.date_of_birth }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    
+        {% if not infos %}
+            <p>No Personal Information Yet</p>
+        {% endif %}    
+
+    </div>
+    
+    <div class="dashboardRedirect">
+        <a href="{{ url_for('admin_dashboard') }}">ADMIN DASHBOARD</a>
+    </div>
+
+{% endblock %}

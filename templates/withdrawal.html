@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}
+WITHDRAWAL REQUEST
+{% endblock %}
+
+{% block content %}
+    <div class="withdrawal-container">
+        <h1>Withdrawal Request</h1>
+        <p class="subtitle">Request a withdrawal from your available balance</p>
+
+        <form method="POST" action="{{ url_for('withdrawal') }}" class="withdrawal-form">
+
+            <div class="form-group">
+                <label>Withdrawal Method</label>
+                <select name="method" required>
+                    <option value="">Select Method</option>
+                    <option value="crypto">Crypto Wallet</option>
+                    <option value="bank">Bank Transfer</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Amount</label>
+                <input type="number" step="0.01" name="amount" placeholder="Enter amount" required>
+            </div>
+
+            <div class="form-group">
+                <label>Wallet / Bank Details</label>
+                <input type="text" name="destination" placeholder="Wallet address or Bank details" required>
+            </div>
+
+            <div class="form-group">
+                <label>Note (optional)</label>
+                <textarea name="note" placeholder="Additional information"></textarea>
+            </div>
+
+            <button type="submit" class="btn-withdraw">Submit Withdrawal</button>
+           
+        </form>
+    </div>
+
+    <div class="dashboardRedirect">
+        <a href="{{ url_for('dashboard') }}">BACK TO DASHBOARD</a>
+    </div>
+
+
+
+
+
+{% endblock %}

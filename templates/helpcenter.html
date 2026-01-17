@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+   
+{% block title %}HELP CENTER{% endblock %}
+
+{% block content %}
+
+<div class="help-container">
+
+    <h1>Help Center</h1>
+    <p class="subtitle">Send a message to our support team</p>
+
+    <form method="POST" class="help-form">
+        <label>Name</label>
+        <input type="text" name="name" value="{{ current_user.name if current_user.is_authenticated else '' }}" required>
+
+        <label>Email</label>
+        <input type="email" name="email" value="{{ current_user.email if current_user.is_authenticated else '' }}" required>
+
+        <label>Message</label>
+        <textarea name="message" rows="5" required></textarea>
+
+        <button type="submit">Send Message</button>
+    </form>
+
+</div>
+
+<div class="dashboardRedirect">
+    <a href="{{ url_for('dashboard') }}">BACK TO DASHBOARD</a>
+</div>
+
+
+
+{% endblock %}

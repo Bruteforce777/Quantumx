@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% block title %} USER AGREEMENT {% endblock %}
+
+<div class="legal-container">
+    <h1>Terms of Service</h1>
+
+    <p>
+        Welcome to <strong>RootQuantumX</strong>. By accessing or using our platform,
+        you agree to these Terms of Service. If you do not agree, please do not use the platform.
+    </p>
+
+    <h2>1. Eligibility</h2>
+    <p>
+        You must be at least 18 years old to use this platform. By creating an account,
+        you confirm that you meet this requirement.
+    </p>
+
+    <h2>2. Trading & Risk Disclaimer</h2>
+    <p>
+        Trading involves financial risk. Prices can move against you, and losses may exceed
+        deposits. We do <strong>not</strong> guarantee profits or performance.
+    </p>
+
+    <h2>3. Account Responsibility</h2>
+    <ul>
+        <li>You are responsible for your login credentials</li>
+        <li>You must provide accurate information</li>
+        <li>You are responsible for all activities on your account</li>
+    </ul>
+
+    <h2>4. Deposits & Withdrawals</h2>
+    <p>
+        Deposits and withdrawals are subject to internal review and processing times.
+        We reserve the right to delay or reject requests to prevent fraud or misuse.
+    </p>
+
+    <h2>5. Account Suspension</h2>
+    <p>
+        We reserve the right to suspend or terminate accounts that violate our rules,
+        attempt fraud, or abuse the platform.
+    </p>
+
+    <h2>6. Limitation of Liability</h2>
+    <p>
+        RootCapital shall not be liable for trading losses, system downtime, or
+        third-party service interruptions.
+    </p>
+
+    <h2>7. Changes</h2>
+    <p>
+        We may update these Terms at any time. Continued use of the platform means
+        acceptance of the updated terms.
+    </p>
+
+    <div class="legal-cta">
+        <a href="{{ url_for('signup') }}">I Agree & Continue</a>
+    </div>
+</div>
+
+<div class="dashboardRedirect">
+    <a href="{{ url_for('home') }}">BACK TO HOME</a>
+</div>
+
+{% endblock %}

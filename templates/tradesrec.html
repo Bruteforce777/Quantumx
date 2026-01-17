@@ -1,0 +1,114 @@
+{% extends 'base.html' %}   
+
+
+{% block title %}
+TRADES
+{% endblock %}
+
+
+
+{% block content %}
+    <div class="table-body">
+
+        <div class="table-wrapper">
+
+            <h4>OPEN TRADES</h4>
+        
+            {% if trades %}
+            <table border="1" cellpadding="5" cellspacing="0" class="trade-table">
+                <thead>
+                    <tr>
+                        <th>ASSET</th>
+                        <th>SIDE</th>
+                        <th>ENTRY PRICE</th>
+                        <th>CURRENT PRICE</th>
+                        <th>PNL</th>
+                        <th>STATUS</th>
+                        <th>ACTION</th>
+                        <th>OPEN DATE</th>
+                    </tr>
+                </thead>
+        
+                <tbody>
+                    {% for trade in trades if trade.status == 'open' %}
+        
+                    <tr>
+                        <td>{{ trade.symbol }}</td>
+                        <td>{{ trade.side| capitalize }}</td>
+                        <td>{{ trade.entry_price | money }}</td>
+                        <td>{{ trade.current_price | money }}
+                        <td>
+                            <p class="{% if trade.pnl >= 0 %}pnl-positive{% else %}pnl-negative{% endif %}">{{ trade.pnl
+                                | money }}</p>
+                        </td>
+                        <td>{{ trade.status|upper }}</td>
+                        
+        
+                        <td>
+                            <form action="{{ url_for('close_trade', trade_id=trade.id) }}" method="POST"
+                                style="display: inline;">
+                                <button type="submit" class="close-btn"
+                                    onclick="return confirm('ARE YOU SURE YOU WANT TO CLOSE THIS TRADE?');">CLOSE</button>
+                            </form>
+        
+                        </td>
+                        <td>{{ trade.created.strftime('%d-%m-%Y %H:%M:%S') if trade.created else 'N/A' }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>NO TRADES OPEN TRADES YET</p>
+            {% endif %}
+        
+        </div>
+        
+        
+        <div class="table-wrapper">
+        
+            <h4>CLOSED TRADES</h4>
+        
+            {% if closed_trades and closed_trades|count > 0 %}
+        
+            <table border="1" cellpadding="5" cellspacing="0" class="trade-table">
+                <thead>
+                    <tr>
+                        <th>ASSET</th>
+                        <th>SIDE</th>
+                        <th>ENTRY PRICE</th>
+                        <th>CLOSED PRICE</th>
+                        <th>FINAL PNL</th>
+                        <th>STATUS</th>
+                        <th>CLOSED DATE</th>
+                    </tr>
+                </thead>
+        
+                <tbody>
+                    {% for trade in closed_trades %}
+        
+                    <tr>
+                        <td>{{ trade.symbol }}</td>
+                        <td>{{ trade.side| capitalize }}</td>
+                        <td>{{ trade.entry_price | money }}</td>
+                        <td>{{ trade.current_price | money }}</td>
+                        <td>
+                            <p class="{% if trade.pnl >= 0 %}pnl-positive{% else %}pnl-negative{% endif %}">{{ trade.pnl
+                                | money }}</p>
+                        </td>
+                        <td>CLOSED</td>
+                        <td>{{ trade.created.strftime('%d-%m-%Y %H:%M:%S') if trade.created else 'N/A' }}</td>
+                    </tr>
+        
+                    {% endfor %}
+                </tbody>
+        
+            </table>
+            {% else %}
+            <p>NO CLOSED TRADES YET</p>
+            {% endif %}
+        </div>
+        
+    </div>   
+
+        
+{% endblock %}

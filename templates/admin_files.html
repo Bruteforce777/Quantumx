@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Admin – Uploaded Files{% endblock %}
+
+{% block content %}
+
+    <div class="admin-container">
+
+        <h1>Uploaded Files</h1>
+
+        <div class="tableWrapper">
+            <table class="withdrawals-table">
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Filename</th>
+                        <th>Type</th>
+                        <th>Date</th>
+                        <th>Download</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for f in files %}
+                    <tr>
+                        <td>#{{ f.user_id }}</td>
+                        <td>{{ f.original_filename }}</td>
+                        <td>{{ f.file_type }}</td>
+                        <td>{{ f.uploaded.strftime("%Y-%m-%d %H:%M:%S") }}</td>
+                        <td>
+                            <a href="{{ url_for('download_file', file_id=f.id) }}" class="btn download">Download</a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5">No files uploaded</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+                        
+    </div>
+
+    <div class="dashboardRedirect">
+        <a href="{{ url_for('admin_dashboard') }}">ADMIN DASHBOARD</a>
+    </div>
+
+    
+{% endblock %} 

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Admin – Help Messages{% endblock %}
+
+{% block content %}
+    <div class="admin-container">
+
+        <h1>Help Messages</h1>
+        <p class="subtitle">User support requests</p>
+
+        <div class="tableWrapper">
+            <table class="withdrawals-table">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Email</th>
+                        <th>Client</th>
+                        <th>Message</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for m in messages %}
+                    <tr>
+                        <td>{{ m.name }}</td>
+                        <td>{{ m.email }}</td>
+                        <td>
+                            {% if m.user_id %}
+                                User #{{ m.user_id }}
+                            {% else %}
+                                <span class="guest">Guest</span>
+                            {% endif %}        
+                        </td>    
+                        <td class="message">{{ m.message }}</td>
+                        <td>{{ m.created.strftime("%Y-%m-%d %H:%M:%S") }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="4" class="empty">No messages</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <div class="dashboardRedirect">
+        <a href="{{ url_for('admin_dashboard') }}">ADMIN DASHBOARD</a>
+    </div>
+
+
+{% endblock %}

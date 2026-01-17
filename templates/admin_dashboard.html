@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+
+{% block title %} ADMIN DASHBOARD {% endblock %}
+
+
+{% block content %}
+
+<div class="admin-dashboard-container">
+
+    <h1>ADMIN DASHBOARD</h1>
+    <p class="subtitle">Clients Management Center</p>
+
+    <div class="dashboardRedirect">
+        <a href="{{ url_for('admin_logout') }}">ADMIN LOGOUT</a>
+    </div>
+
+    <div class="adminNav">
+        <a href="{{ url_for('admin_files') }}">Client Files</a>
+        <a href="{{ url_for('admin_withdrawals') }}">Withdrawals</a>
+        <a href="{{ url_for('admin_page_visits') }}">Client Navigation</a>
+        <a href="{{ url_for('manage_trades') }}">Manage PNL</a>
+        <a href="{{ url_for('admin_helpcenter') }}">Client Messages</a>
+        <a href="{{ url_for('funds') }}">Balance Funds</a>
+        <a href="{{ url_for('admin_personalinfo') }}">Client Information</a>
+    </div>
+        
+    <div class="adminContainer">
+        <h2>All Clients</h2>
+        
+        <table class="trade-table" border="1" cellpadding="5" cellspacing="0" >
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Account Number</th>
+                    <th>Security Code</th>
+                    <th>Total Balance</th>
+                    <th>Status</th>
+                    <th>Device</th>
+                    <th>Joined</th>
+                    <th>Action</th>
+                    <th>Client Dashboard</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.name }} {{ user.surname }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.phonenumber }}</td>
+                    <td><p class="accountColor">#RQX {{ user.account_number }}</p></td>
+                    <td><p class="accountColor">{{ user.security_code }}</p></td>
+                    <td><p class="highlight">{{ user.total_balance | money }}</p></td>
+                    <td>
+                        {% if is_user_online(user) %}
+                            <span style="color:#22c55e;">ONLINE</span>
+                        {% else %}
+                            <span style="color:#64748b;">OFFLINE</span> 
+                        {% endif %}     
+                    </td>
+                    <td>{{ user_device[user.id] }}</td>
+                    <td>{{ user.created.strftime('%d-%m-%Y') }}</td>
+                    <td>
+                        <form method="POST" action="{{url_for('admin_change_password',user_id=user.id)}}">
+                            <input type="password" name="new_password" placeholder="New Password" required>
+                            <button class="delete-btn" type="submit">Update Password</button>
+                        </form>
+                    </td>
+                    <td>
+                        <a href="{{ url_for('admin_impersonate', user_id=user.id) }}"
+                            class="btn-warning">
+                            CLIENT DASHBOARD
+                        </a>
+                    </td>
+                    
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+        
+</div>
+    
+
+
+{% endblock %}

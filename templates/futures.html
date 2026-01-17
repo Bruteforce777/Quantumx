@@ -1,0 +1,116 @@
+{% extends 'base.html' %}   
+
+
+{% block title %}
+FUTURES
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<!-- HERO -->
+<section class="futures-hero">
+    <h1>Futures Trading</h1>
+    <p>
+        Trade futures contracts with leverage across crypto, forex, indices,
+        and commodities. Take long or short positions in any market condition.
+    </p>
+    <a href="{{url_for('signup')}}">Start Futures Trading</a>
+</section>
+    
+    <!-- FEATURES -->
+<section class="futures-section">
+    <div class="futures-grid">
+    
+        <div class="futures-card">
+            <h3>High Leverage</h3>
+            <p>Amplify your exposure with adjustable leverage designed for active traders.</p>
+        </div>
+    
+        <div class="futures-card">
+            <h3>Long & Short Positions</h3>
+            <p>Profit from rising or falling markets with equal flexibility.</p>
+        </div>
+    
+        <div class="futures-card">
+            <h3>Advanced Risk Controls</h3>
+            <p>Use margin limits, stop-loss, and liquidation protection tools.</p>
+        </div>
+    
+        <div class="futures-card">
+            <h3>Deep Liquidity</h3>
+            <p>Execute large orders with minimal slippage and fast settlement.</p>
+        </div>
+    
+        <div class="futures-card">
+            <h3>Institutional Infrastructure</h3>
+            <p>Trade on a secure, high-performance trading engine.</p>
+        </div>
+    
+        <div class="futures-card">
+            <h3>24/7 Market Access</h3>
+            <p>Trade global futures markets anytime, anywhere.</p>
+        </div>
+    
+    </div>
+</section>
+    
+    <!-- LEVERAGE -->
+    <section class="leverage-section">
+        <div class="leverage-grid">
+            <div class="leverage-box">
+            <h2>1×</h2>
+            <span>Conservative</span>
+        </div>
+        <div class="leverage-box">
+            <h2>5×</h2>
+            <span>Balanced</span>
+        </div>
+        <div class="leverage-box">
+            <h2>10×</h2>
+            <span>Advanced</span>
+        </div>
+        <div class="leverage-box">
+            <h2>50×</h2>
+            <span>Professional</span>
+        </div>
+    </div>
+</section>
+    
+    <!-- RISK -->
+<section class="risk-section">
+    <h3>Risk Warning</h3>
+    <p>
+        Futures trading involves significant risk and may not be suitable for all investors.
+        Leverage can amplify both profits and losses. Please trade responsibly.
+    </p>
+</section>
+    
+    <!-- CTA -->
+<section class="futures-cta">
+    <h2>Take Control of the Market</h2>
+    <p>
+        Access professional futures trading tools and manage risk with precision.
+        Join today and start trading with confidence.
+    </p>
+    <a href="{{url_for('signup')}}">Open Futures Account</a>
+</section>
+
+<section class="flex-hero">
+    <div class="flex-left">
+        <h2 class="sub-header">Futures & Options</h2>
+        <p class="sub-text">
+            Leverage sophisticated strategies with derivatives — manage risk, amplify returns,
+            or hedge positions using margin-efficient futures and options tools.
+        </p>
+        <a href="{{url_for('signup')}}" class="hero-link">Start Trading</a>
+    </div>
+    
+    <div class="flex-right">
+        <img src="{{url_for('static', filename='images/tablet.png')}}" alt="Futures">
+    </div>     
+</section>
+    
+{% endblock %}

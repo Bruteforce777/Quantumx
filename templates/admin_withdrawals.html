@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}
+WITHDRAWALS
+{% endblock %}
+
+
+{% block content %}
+<div class="admin-container">
+
+    <h1>Withdrawal Requests</h1>
+    <p class="subtitle">Manage pending withdrawal requests</p>
+
+    <div class="tableWrapper">
+        <table class="withdrawals-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Method</th>
+                    <th>Amount</th>
+                    <th>Destination</th>
+                    <th>Note</th>
+                    <th>Status</th>
+                    <th>Requested</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            {% for w in withdrawals %}
+                <tr>
+                    <td>#{{ w.user_id }}</td>
+                    <td>{{ w.method|upper }}</td>
+                    <td>${{ "%.2f"|format(w.amount) }}</td>
+                    <td class="destination">{{ w.destination }}</td>
+                    <td class="note">
+                        {% if w.note %}
+                            {{ w.note }}
+                        {% else %}
+                            <span class="spanMuted">-</span>
+                        {% endif %}        
+                    </td>
+                    <td>
+                        <span class="status {{ w.status }}">
+                            {{ w.status }}
+                        </span>
+                    </td>
+
+                    <td>{{ w.created.strftime("%Y-%m-%d %H:%M:%S") }}</td>
+
+                    <td>
+                        {% if w.status and w.status|lower|trim == "pending" %}
+                        <form method="POST" action="{{ url_for('update_withdrawal', withdrawal_id=w.id) }}" class="action-form">
+
+                            <button class="btn approve" name="action" value="approve">Approve</button>
+
+                            <button class="btn reject" name="action" value="reject">Reject</button>
+                        </form>
+                        {% else %}
+                        —
+                        {% endif %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="7" class="empty-2">
+                         No withdrawal requests
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+
+</div>
+<div class="dashboardRedirect">
+    <a href="{{ url_for('admin_dashboard') }}">ADMIN DASHBOARD</a>
+</div>
+
+
+{% endblock %}
+        

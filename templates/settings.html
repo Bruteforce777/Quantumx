@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}  {{ name }} SETTINGS  {% endblock %}
+
+{% block content %}
+
+    <div class="settings-container">
+
+        <div class="settingsWrapper">
+            <div class="settings-pass">
+                <a href="{{url_for('change_password')}}">CHANGE PASSWORD</a>
+            </div>
+            <div class="settings-info">
+                <a href="{{url_for('personalinfo')}}">PERSONAL INFO</a>
+            </div>
+        </div>
+
+        <h2>Trading Settings</h2>
+    
+        <form method="POST" action="{{url_for('settings')}}">
+           
+    
+            <!-- Margin Type -->
+            <label>Margin Type</label>
+            <select name="margin_type">
+                <option value="isolated">Isolated</option>
+                <option value="cross">Cross</option>
+            </select>
+    
+            <!-- Margin Rate -->
+            <label>Margin Rate</label>
+            <select name="margin_rate">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+            </select>
+    
+            <!-- Margin Level -->
+            <label>Margin Level</label>
+            <select name="margin_level">
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="200">200</option>
+            </select>
+    
+            <!-- Leverage -->
+            <label>Leverage</label>
+            <select name="leverage">
+                <option value="3">3</option>
+                <option value="10">10</option>
+                <option value="25x">25</option>
+                <option value="50">50</option>
+            </select>
+    
+            <button type="submit">Save Settings</button>
+        </form>
+    </div>
+
+    <div class="dashboardRedirect">
+        <a href="{{ url_for('dashboard') }}">BACK TO DASHBOARD</a>
+    </div>
+        
+
+{% endblock %}
+
+
+   
+   

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}   
+
+{% block title %} UPLOAD FILE {% endblock %}
+
+
+{% block content %}
+
+<div class="upload-container">
+
+    <h1>Upload Document</h1>
+    <p class="subtitle">Upload Images Or Documents</p>
+
+        <form enctype="multipart/form-data" method="POST">
+            <input type="file" name="file" required>
+            <button type="submit">Upload</button>
+        </form>
+
+</div>
+
+<div class="dashboardRedirect">
+    <a href="{{ url_for('dashboard') }}">BACK TO DASHBOARD</a>
+</div>
+    
+{% endblock %}

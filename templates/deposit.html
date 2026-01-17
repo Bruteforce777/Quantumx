@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+
+{% block title %} DEPOSIT {% endblock %}
+
+
+{% block content %}
+
+<div class="deposit-container">
+    <h1>Deposit</h1>    
+    <p class="subtitle">Make A Deposit To Your Trading Account</p>
+
+
+    <a href="https://paybis.com/user/register/">
+        <button type="submit" class="btn-withdraw">DEPOSIT</button>
+    </a>  
+    
+    <div class="deposit-image">
+        <img src="{{url_for('static', filename='images/tab-phone.png')}}" alt="">
+    </div>    
+</div>
+
+
+<div class="wallet-section">
+    <h3>Bitcoin</h3>
+    
+    <div class="wallet-card copy-box" data-copy="bc1qgel50u0uz6hw6e9ly8j8tuee9sag6xrath4cf9 ">
+        <div class="wallet-text">
+            bc1qgel50u0uz6hw6e9ly8j8tuee9sag6xrath4cf9 
+        </div>
+    
+        <button type="button" class="copy-btn">
+            <i class="fa-solid fa-copy"></i>
+        </button>
+    
+        <span class="tooltip">Copied!</span>
+    </div>
+    
+    <p class="wallet-note">
+    Send only BTC to your <span class="walletColor">TRADING ACCOUNT</span>. And make you are sending only BTC.
+    </p>
+</div>
+
+<div class="wallet-section">
+    <h3>Ethereum</h3>
+    
+    <div class="wallet-card copy-box" data-copy="0x21d098858cacac8175c97f49c73833ffd0b00aaf ">
+        <div class="wallet-text">
+            0x21d098858cacac8175c97f49c73833ffd0b00aaf 
+        </div>
+    
+        <button type="button" class="copy-btn">
+            <i class="fa-solid fa-copy"></i>
+        </button>
+    
+        <span class="tooltip">Copied!</span>
+    </div>
+    
+    <p class="wallet-note">
+        Send only ETH to your <span class="walletColor">TRADING ACCOUNT</span>. And make you are sending only ETH.
+    </p>
+</div>
+
+<div class="wallet-section">
+    <h3>USDT</h3>
+    
+    <div class="wallet-card copy-box" data-copy="0x21d098858cacac8175c97f49c73833ffd0b00aaf">
+        <div class="wallet-text">
+            0x21d098858cacac8175c97f49c73833ffd0b00aaf 
+        </div>
+    
+        <button type="button" class="copy-btn">
+            <i class="fa-solid fa-copy"></i>
+        </button>
+    
+        <span class="tooltip">Copied!</span>
+    </div>
+    
+    <p class="wallet-note">
+        Send only USDT to your <span class="walletColor">TRADING ACCOUNT</span>. And make you are sending only USDT.
+    </p>
+</div>
+
+
+<div class="dashboardRedirect">
+    <a href="{{ url_for('dashboard') }}">BACK TO DASHBOARD</a>
+</div>
+
+
+{% endblock %}

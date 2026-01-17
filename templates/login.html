@@ -1,0 +1,67 @@
+{% extends 'base.html' %}   
+
+{% block title %}
+LOGIN
+{% endblock %}
+
+
+{% block content %}
+
+<!-- LOGIN-SECTION -->
+
+<div class="signup-container-body">
+    
+    <div class="signup-container">
+        <h2>SIGN IN</h2>
+    
+        <form action="{{ url_for('login') }}" method="POST">
+            
+            <div class="form-group">
+                <label for="name">Email</label>
+                <input type="email" name="email" required/>
+            </div>
+            <div class="form-group">
+                <label for="name">Password</label>
+                <input type="password" name="password" required/>
+            </div>
+
+            <button class="submit" value="Submit" onclick="submit()">SUBMIT</button>  
+
+            <a href="{{url_for('change_pass')}}" class="forgotPass">forgot password</a>
+
+            <p>Don't Have An Account.?<a class="changePage" href="{{ url_for('signup')}}">SIGN UP</a></p>
+
+            <div class="ikons">
+                <div class="sub-links">
+                    <a href="{{url_for('helpcenter')}}"><i class="fa-sharp fa-solid fa-envelope"></i>Drop a Quick Message</a>
+                </div>
+                    
+                <div class="sub-links">
+                    <a href="{{url_for('home')}}"><i class="fa-solid fa-house-laptop"></i>Homepage</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+ <!-- FLEXCONTAINER-SECTION -->
+
+ <section class="flex-hero">
+
+    <div class="flex-left">
+        <h2 class="sub-header">Reliable Quantum Computing</h2>
+        <p class="sub-text">
+            Advanced Algorithms driving next-level trading, Trade smarter, faster 
+            and more efficient with Quantum intelligence for Cash-flow.
+        </p>
+        <a href="{{url_for('signup')}}" class="hero-link">Start Trading</a>
+    </div>
+    
+    <div class="flex-right">
+        <img src="{{url_for('static', filename='images/templates3.jpeg')}}" alt="Trading Dashboard">
+    </div>
+    
+</section>
+
+    
+{% endblock %}

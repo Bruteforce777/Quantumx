@@ -1,0 +1,49 @@
+{% extends 'base.html' %}   
+
+
+{% block title %}
+PERSONAL INFO
+{% endblock %}
+
+
+{% block content %}
+
+<div class="settings-container">
+
+    <h2>Personal Information</h2>
+
+    <form method="POST" action="{{url_for('personalinfo')}}">
+
+        <label>Full Name</label>
+        <input type="text" name="fullname">
+        
+        <label>Email</label>
+        <input type="email" name="email">
+        
+        <label>Phone</label>
+        <input type="phone" name="phone">
+
+        <label>Nationality</label>
+        <input type="text" name="nationality">
+                    
+        <label>City</label>
+        <input type="text" name="city">
+                  
+        <label>Address</label>
+        <input type="text" name="address">
+                     
+        <label>Zip Code</label>
+        <input type="text" name="zipcode">
+                
+        <label>Date Of Birth</label>
+        <input type="text" name="date_of_birth">
+
+        <button type="submit">Submit</button>
+    </form>
+</div>
+
+<div class="dashboardRedirect">
+    <a href="{{ url_for('settings') }}">BACK TO SETTINGS</a>
+</div>
+    
+{% endblock %}

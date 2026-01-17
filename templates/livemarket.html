@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block title %}
+All Clients
+{% endblock %}
+
+{% block content %}
+
+<div class="market-table" style="width: 100%; max-height: 800px; border: 1px solid #333;">
+    
+    <!-- Market Overview Widget BEGIN -->
+<iframe src="https://s.tradingview.com/embed-widget/market-overview/?locale=en#%7B%22colorTheme%22%3A%22dark%22%2C%22dateRange%22%3A%22ALL%22%2C%22showChart%22%3Atrue%2C%22largeChartUrl%22%3A%22%22%2C%22isTransparent%22%3Afalse%2C%22tabs%22%3A%5B%7B%22title%22%3A%22Forex%22%2C%22symbols%22%3A%5B
+
+%7B%22s%22%3A%22FX%3AEURUSD%22%7D%2C
+%7B%22s%22%3A%22FX%3AGBPUSD%22%7D%2C
+%7B%22s%22%3A%22FX%3AUSDJPY%22%7D%2C
+%7B%22s%22%3A%22FX%3AUSDCHF%22%7D%2C
+%7B%22s%22%3A%22FX%3AUSDCAD%22%7D%2C
+%7B%22s%22%3A%22FX%3AAUDUSD%22%7D%2C
+%7B%22s%22%3A%22FX%3ANZDUSD%22%7D%2C
+
+%7B%22s%22%3A%22FX%3AEURJPY%22%7D%2C
+%7B%22s%22%3A%22FX%3AGBPJPY%22%7D%2C
+%7B%22s%22%3A%22FX%3AEURGBP%22%7D%2C
+%7B%22s%22%3A%22FX%3AAUDJPY%22%7D%2C
+%7B%22s%22%3A%22FX%3ANZDJPY%22%7D%2C
+%7B%22s%22%3A%22FX%3ACADJPY%22%7D%2C
+%7B%22s%22%3A%22FX%3ACHFJPY%22%7D%2C
+
+%7B%22s%22%3A%22FX%3AEURAUD%22%7D%2C
+%7B%22s%22%3A%22FX%3AEURNZD%22%7D%2C
+%7B%22s%22%3A%22FX%3AEURCAD%22%7D%2C
+%7B%22s%22%3A%22FX%3AEURCHF%22%7D%2C
+
+%7B%22s%22%3A%22FX%3AGBPAUD%22%7D%2C
+%7B%22s%22%3A%22FX%3AGBPCAD%22%7D%2C
+%7B%22s%22%3A%22FX%3AGBPCHF%22%7D%2C
+%7B%22s%22%3A%22FX%3AGBPNZD%22%7D%2C
+%7B%22s%22%3A%22FX%3AUSDZAR%22%7D%2C
+%7B%22s%22%3A%22FX%3AUSDTRY%22%7D%2C
+%7B%22s%22%3A%22FX%3AUSDMXN%22%7D%2C
+%7B%22s%22%3A%22FX%3AUSDSEK%22%7D%2C
+%7B%22s%22%3A%22FX%3AUSDNOK%22%7D%2C
+%7B%22s%22%3A%22FX%3AUSDHKD%22%7D%2C
+%7B%22s%22%3A%22FX%3AUSDHUF%22%7D%2C
+%7B%22s%22%3A%22FX%3AUSDCNH%22%7D%2C
+%7B%22s%22%3A%22FX%3AEURUSD%22%7D%2C%7B%22s%22%3A%22FX%3AGBPUSD%22%7D%2C%7B%22s%22%3A%22FX%3AUSDJPY%22%7D%2C%7B%22s%22%3A%22FX%3AUSDCHF%22%7D%2C%7B%22s%22%3A%22FX%3AUSDCAD%22%7D%2C%7B%22s%22%3A%22FX%3AAUDUSD%22%7D%5D%7D%5D%7D"
+    width="100%"
+    height="700"
+    frameborder="0"
+    allowtransparency="true"
+    scrolling="no">
+</iframe>
+    <!-- Market Overview Widget END -->
+   
+</div>
+
+
+<section class="markets-section">
+    <div class="markets-grid">
+    
+        <div class="market-card">
+            <h3>Cryptocurrency</h3>
+            <p>Trade Bitcoin, Ethereum, and leading altcoins with real-time pricing and deep liquidity.</p>
+            <a href="#crypto">View Crypto Markets →</a>
+        </div>
+    
+        <div class="market-card">
+            <h3>Forex</h3>
+            <p>Access major, minor, and exotic currency pairs with tight spreads and fast execution.</p>
+            <a href="#forex">View Forex Markets →</a>
+        </div>
+    
+        <div class="market-card">
+            <h3>Stocks</h3>
+            <p>Invest in top global companies including US, EU, and emerging market equities.</p>
+            <a href="#stocks">View Stock Markets →</a>
+        </div>
+    
+        <div class="market-card">
+            <h3>Indices</h3>
+            <p>Diversify your portfolio by trading major indices like S&P 500, NASDAQ, and DAX.</p>
+            <a href="#indices">View Indices →</a>
+        </div>
+    
+        <div class="market-card">
+            <h3>Commodities</h3>
+            <p>Trade gold, oil, natural gas, and agricultural products with flexible leverage.</p>
+            <a href="#commodities">View Commodities →</a>
+        </div>
+    
+        <div class="market-card">
+            <h3>AI-Powered Trading</h3>
+            <p>Leverage algorithmic insights and automated strategies for smarter decisions.</p>
+            <a href="#futures">Learn More →</a>
+        </div>
+    
+    </div>
+</section>
+
+
+<!-- FLEXCONTAINERS-IMAGE-SECTION -->
+<div class="features">
+    <div class="feature-item">
+        <img src="{{url_for('static', filename='images/templates6.jpeg')}}" alt="Feature 1">
+        <h3>Fast Execution</h3>
+        <p>Experience lightning-fast trade execution powered by advanced servers.</p>
+    </div>
+    
+    <div class="feature-item">
+        <img src="{{url_for('static', filename='images/templates5.jpg')}}" alt="Feature 2">
+        <h3>AI Analytics</h3>
+        <p>Get powerful insights using quantum-enhanced trading algorithms and modern data.</p>
+    </div>
+    
+    <div class="feature-item">
+        <img src="{{url_for('static', filename='images/templates3.jpeg')}}" alt="Feature 3">
+        <h3>Secure Wallet</h3>
+        <p>Keep your funds protected with advanced and multi-layer encrypted security protocols.</p>
+    </div>
+</div>
+
+<div class="dashboardRedirect">
+    <a href="{{ url_for('dashboard') }}">BACK TO DASHBOARD</a>
+</div>
+         
+{% endblock %}

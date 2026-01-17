@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:weight@100;200;300;400;600;800&display=swap" rel="stylesheet"/>
+    <script src="https://kit.fontawesome.com/a6765046e2.js" crossorigin="anonymous"></script>
+    <link rel="fontawesome" href="{{ url_for('static' , filename='a6765046e2.js')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='templates')}}">
+    <title>{% block title %} Home {% endblock %} </title>
+    
+</head>
+
+
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-wrapper">
+                {% for category, message in messages %}
+                    <div class="flash flash-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}    
+            </div>
+        {% endif %}
+    {% endwith %}  
+    
+    
+    <!-- HEADER -->
+    <header class="app-header" role="banner" aria-label="Main header">
+        <div class="container header-inner">
+            <a href="{{url_for('home')}}" class="brand" aria-hidden="false">
+                <div class="logo" aria-hidden="true">RQ</div>
+                <div>
+                    <h1>RootQuantum<span class="quantumColor">X</span></h1>
+                    <div class="small muted">Trade smarter — faster insights</div>
+                </div>
+            </a>
+            
+            <!-- NAV LINKS -->
+            <div id="mainNavLinks" class="main-nav">
+                <a href="{{url_for('markets')}}">Markets</a>
+                <a href="{{url_for('futures')}}">Futures</a>
+                <a href="{{url_for('analytic')}}">Analytic</a>
+                <a href="{{url_for('account')}}">Account</a>
+                <a href="{{url_for('contact')}}">Contact</a>
+            
+                <a href="{{ url_for('signup') }}" class="btn2 signup">Sign Up</a>
+                <a href="{{ url_for('login') }}" class="btn2 signin">Sign In</a>
+            </div>
+
+            <div class="lang-dropdown">
+                <button class="lang-btn" onclick="toggleLangMenu()">
+                    <i class="fa-regular fa-globe"></i>
+                </button>
+                    
+                <div id="langMenu" class="lang-menu">
+                    <a href="#" onclick="changeLang('en')">English</a>                        
+                    <a href="#" onclick="changeLang('fr')">Français</a>
+                    <a href="#" onclick="changeLang('es')">Espanyol</a>
+                </div>
+            </div>
+                    
+            <!-- Hidden Google Translate element -->
+            <div id="google_translate_element" style="display:none;"></div>
+            
+        
+            <!-- HAMBURGER -->
+            <a id="hamburger" class="hamburger-icon">
+                <i class="fa-solid fa-bars"></i>
+            </a>
+        </div>
+
+        <!-- TICKER -->
+
+        <div class="ticker" aria-hidden="true">
+            <div class="ticker-track" id="ticker-track">
+            <!-- demo items; JS will duplicate to create continuous effect -->
+                <div class="ticker-item"><span class="symbol">BTC/USD</span> <span class="price">$42,210</span> <span class="up">+1.8%</span></div>
+                <div class="ticker-item"><span class="symbol">ETH/USD</span> <span class="price">$2,980</span> <span class="up">+0.6%</span></div>
+                <div class="ticker-item"><span class="symbol">AAPL</span> <span class="price">$174.25</span> <span class="down">-0.4%</span></div>
+                <div class="ticker-item"><span class="symbol">EUR/USD</span> <span class="price">$1.0852</span> <span class="up">+0.02%</span></div>
+                <div class="ticker-item"><span class="symbol">XAU/USD</span> <span class="price">$2,160</span> <span class="down">-0.7%</span></div>
+            </div>
+        </div>
+    </header>
+        
+        {% block content %}
+
+        
+        
+       
+
+        {% endblock %}
+
+        
+        
+       
+        
+
+       
+
+    <!--------FOOTER-------->
+    
+    <footer class="footer">
+        <div class="footer-container">
+        
+            <div class="footer-section">
+                <h3>RootQuantum<span class="quantumColor">X</span></h3>
+                <p>Your gateway to fast, reliable, and secure trading across global markets.</p>
+            </div>
+        
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="{{url_for('livemarket')}}">Markets</a></li>
+                    <li><a href="{{url_for('signup')}}">Trading</a></li>
+                    <li><a href="{{url_for('account')}}">Pricing</a></li>
+                    <li><a href="{{url_for('contact')}}">Contact</a></li>
+                </ul>
+            </div>
+        
+            <div class="footer-section">
+                <h4>Connect</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-x-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                </div>
+            </div>
+        
+        </div>
+        
+        <div class="footer-bottom">
+            © 2015 RootQuantumX — All Rights Reserved. <a href="{{url_for('useragreement')}}">Terms Of Srevices</a>  <a href="{{url_for('privacypolicy')}}">Privacy Policy</a>
+        </div>
+    </footer>
+
+    <script>
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement(
+                { pageLanguage: 'en', autoDisplay: false },
+                'google_translate_element'
+            );
+        }
+        
+        function toggleLangMenu() {
+            document.getElementById("langMenu").classList.toggle("show");
+        }
+        
+        function changeLang(lang) {
+            const select = document.querySelector("select.goog-te-combo");
+            if (!select) return;
+        
+            select.value = lang;
+            select.dispatchEvent(new Event("change"));
+        
+            document.getElementById("langMenu").classList.remove("show");
+        }
+        
+        // Close dropdown if clicked outside
+        document.addEventListener("click", function(e) {
+            if (!e.target.closest(".lang-dropdown")) {
+                document.getElementById("langMenu").classList.remove("show");
+            }
+        });
+    </script>
+        
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+        
+    
+    <script>
+        setInternal( () => {
+            fetch("/heartbeat", { method: "POST"})
+        },30000)
+    </script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+
+</body>
+</html> 
+
+
+

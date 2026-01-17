@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+
+{% block title %} MANAGE TRADES {% endblock %}
+
+
+{% block content %}
+
+<div class="manage-trades-container">
+        
+    <h1>Manage Trades</h1>
+    
+    <div class="funds-group">
+        <label for="user">SELECT USER</label>
+        <select name="user_id" id="user" required>
+            <option value="{{ user_id }}">{{current_user.name}} {{ current_user.surname }} ({{ current_user.email}})</option>
+            {% for user in users %}
+                <option value="{{ user.id }}">{{ current_user.name }} {{ current_user.surname }} ( {{ user.email }} )</option>
+            {% endfor %}
+        </select>
+    </div>
+    <a href="{{ url_for('admin_dashboard') }}">ADMIN DASHBOARD</a>
+    <p class="subtitle">CLIENT {{ current_user.name }} {{ current_user.surname }} {{ current_user.email }}</p>
+    
+    <div class="manage-trades-table">
+
+        <table border="1" cellspacing="0" cellpadding="5" class="trade-table">
+            <thead>
+                <tr>
+                    <th>CLIENT</th>
+                    <th>ID</th>
+                    <th>ASSET</th>
+                    <th>SIDE</th>
+                    <th>QUANTITY</th>
+                    <th>ENTRY PRICE</th>
+                    <th>CURRENT PRICE</th>
+                    <th>PNL</th>
+                    <th>ACTION</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for trade in trades %}
+                <tr>
+                    {% for user in users %}
+                        <td>{{ user.name }} {{ user.surname }}</td>
+                    {% endfor %}
+                    <td>{{ trade.id }}</td>
+                    <td>{{ trade.symbol }}</td>
+                    <td>{{ trade.side | capitalize }}</td>
+                    <td>
+                        <form action="{{ url_for('manage_trades') }}" method="POST">
+                            <input type="number" name="quantity" value="{{ trade.quantity }}" step="0.00" required>
+                            <input type="hidden" name="trade_id" value="{{ trade.id }}">
+                    </td> 
+                    <td>
+                            <input type="number" name="entry_price" value="{{ trade.entry_price }}" step="0.00" required>
+                            <input type="hidden" name="trade_id" value="{{ trade.id }}">
+                    </td>      
+                    <td>{{ trade.current_price | money }}</td>
+                    <td><p class="{% if trade.pnl >= 0 %}pnl-positive{% else %}pnl-negative{% endif %}">{{ trade.pnl | money }}</p></td>
+                    <td>   
+                            <button type="submit" class="btn-update">UPDATE PROFITS</button>
+                        </form>
+                    </td>                
+                               
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="7" style="text-align: center;">NO OPEN TRADES FOUND</td>
+                </tr>
+                {% endfor %}       
+            </tbody>
+        </table>
+    </div>
+
+    
+</div>
+
+{% endblock %}
