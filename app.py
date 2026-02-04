@@ -1354,10 +1354,16 @@ class FakeAdmin(UserMixin):
 
 @login_manager.user_loader
 def load_user(user_id):
-    if user_id == 0:
+    if user_id in ["0",0]:
         return FakeAdmin()
-    return User.query.get(int(user_id))        
-
+    
+    if user_id == "admin":
+        return None
+    
+    try:
+        return User.query.get(int(user_id))        
+    except ValueError:
+        return None
 
 
 
