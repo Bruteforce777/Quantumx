@@ -12,7 +12,8 @@
             <table class="withdrawals-table">
                 <thead>
                     <tr>
-                        <th>User ID</th>
+                        <th>ID</th>
+                        <th>Client</th>
                         <th>Filename</th>
                         <th>Type</th>
                         <th>Date</th>
@@ -24,6 +25,7 @@
                     {% for f in files %}
                     <tr>
                         <td>#{{ f.user_id }}</td>
+                        <td>{{ f.user.name }} {{ f.user.surname }}</td>
                         <td>{{ f.original_filename }}</td>
                         <td>{{ f.file_type }}</td>
                         <td>{{ f.uploaded.strftime("%Y-%m-%d %H:%M:%S") }}</td>

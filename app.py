@@ -97,10 +97,16 @@ class User(UserMixin,db.Model):
     last_seen = db.Column(db.DateTime, server_default=db.func.now())
     created = db.Column(db.DateTime, server_default=db.func.now())
 
+    pagevisit = db.relationship("PageVisit", backref="user")
+    personalinfo = db.relationship("PersonalInfo", backref="user")
+    userfile = db.relationship("UserFile", backref="user")
+    helpmessage = db.relationship("HelpMessage", backref="user")
     deposit = db.relationship("Deposit",backref="user",lazy=True)
     withdrawal = db.relationship("Withdrawal",backref="user",lazy=True)
+    withdraw = db.relationship("Withdraw",backref="user",lazy=True)
     trade = db.relationship("Trade",backref="user",lazy=True)
     portfolio = db.relationship("Portfolio",backref="user",lazy=True)
+
 
     def set_password(self,password):
         self.password_hash = generate_password_hash(password, method='pbkdf2:sha256')
@@ -130,14 +136,14 @@ class Portfolio(db.Model):
 
 
 class PersonalInfo(db.Model):
-    __tablename__ = 'personalinfo'
+    __tablename__ = 'personal_info'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("clients.id"), nullable=True)
     fullname = db.Column(db.String(80), nullable=False)
     email = db.Column(db.String(120), nullable=False)
     phone = db.Column(db.String(45), nullable=False)
     nationality = db.Column(db.String(80), nullable=False)
-    city = db.Column(db.String(80), nullable=False) # NEW
+    city = db.Column(db.String(80), nullable=False)
     address = db.Column(db.String(100),nullable=False )
     zipcode = db.Column(db.String(100), nullable=False)
     date_of_birth = db.Column(db.String(255),nullable=False)
@@ -146,18 +152,15 @@ class PersonalInfo(db.Model):
     
 
 class PageVisit(db.Model):
-    __tablename__ = 'pagevisit'
+    __tablename__ = 'page_visit'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("clients.id"), nullable=True)
     path = db.Column(db.String(255), nullable=False)
     method = db.Column(db.String(10))
     ip_address = db.Column(db.String(45))
     user_agent = db.Column(db.String(255))
-    device_type = db.Column(db.String(20)) # NEW
+    device_type = db.Column(db.String(20)) 
     timestamp = db.Column(db.DateTime, server_default=db.func.now())
-
-    user = db.relationship("User", backref="page_visits")
-
 
 
 class Trade(db.Model):
@@ -223,7 +226,7 @@ class UserFile(db.Model):
     stored_filename = db.Column(db.String(255), nullable=False)
     file_type = db.Column(db.String(50))
     uploaded = db.Column(db.DateTime, server_default=db.func.now())
-    user = db.relationship("User", backref="files")
+
 
 
 
@@ -254,6 +257,9 @@ def calculate_pnl(trade):
 @login_required
 def dashboard():
 
+    if isinstance(current_user, FakeAdmin):
+        return redirect(url_for('admin_dashboard'))
+
     user = current_user
     trades = Trade.query.filter_by(user_id=user.id, status='open').all()
     closed_trades = Trade.query.filter_by(user_id=user.id, status='closed').all()
@@ -272,7 +278,7 @@ def dashboard():
                     trade.pnl = (trade.entry_price - current_price) * trade.quantity
                 total_pnl += trade.pnl
         except Exception as e:
-            print(f"Error Updating {trade.symbol}: {e}")
+            flash(f"Error Updating {trade.symbol}: {e}", "danger")
 
     total_balance = user.total_balance or 0 + total_pnl
 
@@ -587,7 +593,7 @@ def login():
             flash("SUCCESSFULLY LOGIN", 'success')
             return redirect(url_for('dashboard'))
         else:
-            flash("INVALID CREDENTIALS", 'error')
+            flash("INVALID CREDENTIALS", 'danger')
             return redirect(url_for('login'))
         
     return render_template("login.html")  
@@ -607,11 +613,11 @@ def signup():
         password = request.form.get('password','')
 
         if not email or not password:
-            flash("EMAIL AND PASSWORD ARE REQUIRED")
+            flash("EMAIL AND PASSWORD ARE REQUIRED","danger")
             return redirect(url_for('signup'))
         
         if User.query.filter_by(email=email).first():
-            flash("EMAIL ALREADY EXIST, PLEASE LOGIN",'error')
+            flash("EMAIL ALREADY EXIST, PLEASE LOGIN","danger")
             return redirect(url_for('signup'))
         
         user = User(name=name,surname=surname,email=email,phonenumber=phonenumber,account_number=generate_account_number(),security_code=generate_security_code())
@@ -632,7 +638,7 @@ def signup():
 @login_required
 def logout():
     logout_user()
-    flash('YOU HAVE BEEN LOGGED OUT')
+    flash('YOU HAVE BEEN LOGGED OUT', "success")
     return redirect(url_for('login'))
 
             
@@ -666,7 +672,7 @@ def close_trade(trade_id):
     if hasattr(user, 'total_balance'):
         user.total_balance += trade.pnl
 
-    print("closing trade", trade.id,trade.symbol, trade.status)
+    flash("closing trade", trade.id,trade.symbol, trade.status,"success")
     db.session.commit()
 
     flash(f"TRADE CLOSED. PNL: {trade.pnl:.2f}", "success")
@@ -691,26 +697,7 @@ app.jinja_env.filters['money'] = format_money
 @app.route('/chart/<symbol>')
 def chart(symbol):
     return render_template("chart.html", symbol=symbol)
-
-        
-
-
-#Route For User to view funds
-@app.route('/tradesrec',methods=["GET","POST"])
-@login_required
-def tradesrec():
-
-    user = current_user
-
-    trades = Trade.query.filter_by(user_id=user.id, status='open').all()
-    closed_trades = Trade.query.filter_by(user_id=user.id, status='closed').all()
-    total_pnl = Trade.query.filter_by()
-
-
-    return render_template("tradesrec.html", 
-                            user=user, 
-                            trades=trades,
-                            closed_trades=closed_trades)  
+  
              
 
 #==========================
@@ -896,9 +883,12 @@ def account_overview():
     total_withdraw = db.session.query(db.func.coalesce(db.func.sum(Withdraw.amount), 0)).filter(Withdraw.user_id == user.id).scalar()
     total_pnl = db.session.query(db.func.coalesce(db.func.sum(Trade.pnl), 0)).filter(Trade.user_id == user.id).scalar()
 
+    latest_withdrawal = (Withdrawal.query.filter_by(user_id=current_user.id).order_by(Withdrawal.created.desc()).first())
+
     total_balance = user.total_balance 
 
     return render_template("account_overview.html",
+                           latest_withdrawal=latest_withdrawal,
                            open_trades=open_trades,
                            closed_trades=closed_trades,
                            total_pnl=total_pnl,
@@ -921,15 +911,15 @@ def change_password():
 
        
         if not check_password_hash(current_user.password_hash, current_password):
-            flash("Current password is incorrect")
+            flash("Current password is incorrect", "danger")
             return redirect(url_for("change_password"))
 
         if new_password != confirm_password:
-            flash("Passwords do not match")
+            flash("Passwords do not match","danger")
             return redirect(url_for("change_password"))
 
         if len(new_password) < 8:
-            flash("Password must be at least 8 characters")
+            flash("Password must be at least 8 characters","danger")
             return redirect(url_for("change_password"))
 
         current_user.password_hash = generate_password_hash(new_password)
@@ -937,7 +927,7 @@ def change_password():
         db.session.commit()
         logout_user()
 
-        flash("Password updated successfully")
+        flash("Password updated successfully","success")
         return redirect(url_for("login"))
 
     return render_template("change_password.html")
@@ -1020,25 +1010,15 @@ def personalinfo():
 
 
 
+#==========================
+#  ADMIN WITHDRAWAL ROUTE approve/reject
+#==========================
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#==========================
+#  ADMIN WITHDRAWAL ROUTE approve/reject
+#==========================
 
 
 
@@ -1053,7 +1033,7 @@ def update_withdrawal(withdrawal_id):
     action = request.form.get("action") # approve / reject
 
     if withdrawal.status.lower() != "pending":
-        flash("Withdrawal already processed", "warning")
+        flash("Withdrawal already processed", "danger")
         return redirect(url_for("admin_withdrawals"))
 
     if action == "approve":
@@ -1101,41 +1081,48 @@ def admin_helpcenter():
 #  ADMIN ADD FUNDS ROUTE 
 #==========================
 @app.route('/funds', methods=["GET","POST"])
+@login_required
 def funds():
    
     if request.method == "POST":
         user_id =request.form.get('user_id')
-        amount = float(request.form.get('amount', 0))
+        amount = request.form.get('amount')
         action = request.form.get('action')  
 
         if not user_id or not amount:
+            flash("Invalid Amount", "danger")
             return redirect(url_for('funds'))
         
-        try:
+        try: 
             amount = float(amount)
-            user = User.query.filter_by(id=int(user_id)).first()
+            user = User.query.get(int(user_id))
 
             if not user:
-                print(f"No user found with ID {user_id}")
+                flash(f"Selected user not found","danger")
                 return redirect(url_for('funds'))
-               
+
             if action == 'deposit':
                 deposit = Deposit(user_id=user.id, amount=amount, type='deposit')
                 db.session.add(deposit)
                 user.total_balance = (user.total_balance or 0) + amount
 
-
             elif action == 'withdraw':
+                
+                if (user.total_balance or 0) < amount:
+                    flash("Insufficent Balance","danger")
+                    return redirect(url_for('funds'))
+
+
                 withdraw = Withdraw(user_id=user.id, amount=amount, type='withdraw')
                 db.session.add(withdraw)
                 user.total_balance = (user.total_balance or 0) - amount
                 
             db.session.commit()
-            flash(f"Transaction commited for {current_user.name} New Balance: {current_user.total_balance}", "success")
+            flash(f"Transaction Successful", "success")
         
         except Exception as e:
             db.session.rollback()
-            flash("Failed Transaction Try Again", e)  
+            flash("Failed Transaction Try Again", "danger")  
         return redirect(url_for('funds'))
    
     users = User.query.all()      
@@ -1150,7 +1137,12 @@ def funds():
 @login_required
 def manage_trades():
 
-    user_id = current_user.id
+    selected_user_id = request.args.get("user_id",type=int)
+
+    if selected_user_id:
+        user_id = selected_user_id
+    else:
+        user_id = current_user.id    
 
     open_trades = Trade.query.filter_by(user_id=user_id, status='open').all()
 
@@ -1159,9 +1151,9 @@ def manage_trades():
             trade_id = int(request.form.get('trade_id'))
             new_quantity = float(request.form.get('quantity'))
             new_entry_price = float(request.form.get('entry_price'))
-            print("form submited")
 
             trade = db.session.get(Trade, int(float(trade_id)))
+
             if not trade:
                 flash("Trade not found", "danger")
                 return redirect(url_for('manage_trades'))
@@ -1187,17 +1179,19 @@ def manage_trades():
                 trade.pnl = 0.0
 
             db.session.commit()
-            print(f"Trade {trade.id} updated successfullly: New Pnl = {trade.pnl}, quantity= {trade.quantity}")    
+            flash(f"Trade {trade.id} updated successfullly: New Pnl = {trade.pnl}, quantity= {trade.quantity}", "success")    
               
         except Exception as e:
             db.session.rollback()
-            print('Commit failed', e)
+            flash('Commit failed', "danger")
+
+        return redirect(url_for('manage_trades', user_id=user_id))    
 
     open_trades = Trade.query.filter_by(user_id=user_id, status='open').all()
     total_pnl = sum(trade.pnl for trade in open_trades if trade.pnl is not None)      
 
-    users = User.query.all()
-    return render_template("manage_trades.html",trades=open_trades,total_pnl=total_pnl,users=users) 
+    users = User.query.order_by(User.email).all()
+    return render_template("manage_trades.html",trades=open_trades,total_pnl=total_pnl,users=users,selected_user_id=user_id) 
 
 
 
@@ -1258,7 +1252,7 @@ def admin_change_password(user_id):
     new_password = request.form.get("new_password")
 
     if not new_password or len(new_password) < 8:
-        flash("Password must be at least 8 characters")
+        flash("Password must be at least 8 characters","danger")
         return redirect(url_for("admin_dashboard"))
 
     user = User.query.get_or_404(user_id)
@@ -1266,7 +1260,7 @@ def admin_change_password(user_id):
     user.password_hash = generate_password_hash(new_password)
     db.session.commit()
 
-    flash(f"Password updated for {user.email}")
+    flash(f"Password updated for {user.email}","success")
     return redirect(url_for("admin_dashboard"))
 
 
@@ -1343,7 +1337,7 @@ def admin_login():
 @login_required
 def admin_logout():
     logout_user()
-    flash("Admin Logged Out successfully")
+    flash("Admin Logged Out successfully","success")
     return redirect(url_for('admin_login'))
 
 
@@ -1369,7 +1363,7 @@ def load_user(user_id):
 
 #==========================
 #  CLIENT IMPERSONATE LOGOUT ROUTE 
-#==========================
+#=========================
 @app.route("/admin/stop-impersonate")
 @login_required
 def stop_impersonate():
@@ -1399,17 +1393,8 @@ def admin_impersonate(user_id):
     session["admin_id"] = "admin"
     login_user(user)
 
-    flash(f"You are now viewing {user.name} {user.surname} 's dashboard", "info")
+    flash(f"You are now viewing {user.name} {user.surname} 's dashboard","success")
     return redirect(url_for("dashboard"))
-
-
-
-
-
-
-
-
-
 
 
 #Route For viewing open and closed trades
@@ -1423,24 +1408,10 @@ def admin_deposit():
     return render_template("admin_deposit.html")
 
 
-
-#Route For viewing open and closed trades
-@app.route('/fundprofile',methods=["GET","POST"])
-def fundprofile():
-    return render_template("fundprofile.html")
-
-
-#Route For Opening new Position
-@app.route('/newposition',methods=["GET","POST"])
-def newposition():
-    return render_template("newposition.html")
-
-
 #Route For Analytic
 @app.route('/analytic',methods=["GET","POST"])
 def analytic():
     return render_template("analytic.html")
-
 
 
 #Route For Markets
@@ -1467,13 +1438,6 @@ def account():
     return render_template("account.html")
 
 
-
-
-
-
-
-
-
 #Route For Withdrawals
 @app.route('/submit',methods=["GET","POST"])
 def submit():
@@ -1486,12 +1450,11 @@ def deposit():
     return render_template("deposit.html")
 
 
-
-
 #Route For Withdrawals
 @app.route('/livemarket',methods=["GET","POST"])
 def livemarket():
     return render_template("livemarket.html")
+
 
 # User/Agreement Page route
 @app.route("/useragreement")

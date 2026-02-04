@@ -10,15 +10,15 @@
         
     <h1>Manage Trades</h1>
     
-    <div class="funds-group">
-        <label for="user">SELECT USER</label>
-        <select name="user_id" id="user" required>
+    <form method="GET" class="funds-group">
+        <label>SELECT USER</label>
+        <select name="user_id" onchange="this.form.submit()" required>
             <option value="{{ user_id }}">{{current_user.name}} {{ current_user.surname }} ({{ current_user.email}})</option>
             {% for user in users %}
                 <option value="{{ user.id }}">{{ current_user.name }} {{ current_user.surname }} ( {{ user.email }} )</option>
             {% endfor %}
         </select>
-    </div>
+    </form>
     <a href="{{ url_for('admin_dashboard') }}">ADMIN DASHBOARD</a>
     <p class="subtitle">CLIENT {{ current_user.name }} {{ current_user.surname }} {{ current_user.email }}</p>
     
@@ -41,9 +41,7 @@
             <tbody>
                 {% for trade in trades %}
                 <tr>
-                    {% for user in users %}
-                        <td>{{ user.name }} {{ user.surname }}</td>
-                    {% endfor %}
+                    <td>{{ trade.user.name }} {{ trade.user.surname }}</td>
                     <td>{{ trade.id }}</td>
                     <td>{{ trade.symbol }}</td>
                     <td>{{ trade.side | capitalize }}</td>
@@ -51,7 +49,7 @@
                         <form action="{{ url_for('manage_trades') }}" method="POST">
                             <input type="number" name="quantity" value="{{ trade.quantity }}" step="0.00" required>
                             <input type="hidden" name="trade_id" value="{{ trade.id }}">
-                    </td> 
+                    </td>
                     <td>
                             <input type="number" name="entry_price" value="{{ trade.entry_price }}" step="0.00" required>
                             <input type="hidden" name="trade_id" value="{{ trade.id }}">

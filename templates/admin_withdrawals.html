@@ -16,12 +16,13 @@ WITHDRAWALS
             <thead>
                 <tr>
                     <th>ID</th>
+                    <th>Client</th>
                     <th>Method</th>
                     <th>Amount</th>
                     <th>Destination</th>
                     <th>Note</th>
                     <th>Status</th>
-                    <th>Requested</th>
+                    <th>Date</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -30,6 +31,7 @@ WITHDRAWALS
             {% for w in withdrawals %}
                 <tr>
                     <td>#{{ w.user_id }}</td>
+                    <td>{{ w.user.name }} {{ w.user.surname }}</td>
                     <td>{{ w.method|upper }}</td>
                     <td>${{ "%.2f"|format(w.amount) }}</td>
                     <td class="destination">{{ w.destination }}</td>
@@ -57,7 +59,7 @@ WITHDRAWALS
                             <button class="btn reject" name="action" value="reject">Reject</button>
                         </form>
                         {% else %}
-                        —
+                        Completed
                         {% endif %}
                     </td>
                 </tr>

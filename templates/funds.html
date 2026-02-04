@@ -12,18 +12,18 @@
     <form method="POST" action="{{url_for('funds')}}">
 
         <div class="funds-group">
-            <label for="user">SELECT USER</label>
-            <select name="user_id" id="user" required>
-                <option value="{{ user_id }}">{{current_user.name}} {{ current_user.surname }} ({{ current_user.email}})</option>
+            <label>SELECT USER</label>
+            <select name="user_id" required>
+                <option value="" disabled selected>-SELECT USER-</option>
                 {% for user in users %}
-                    <option value="{{ user.id }}">{{ current_user.name }} {{ current_user.surname }} ( {{ user.email }} )</option>
+                    <option value="{{ user.id }}">{{ user.name }} {{ user.surname }} ( {{ user.email }} )</option>
                 {% endfor %}
             </select>
         </div>
 
         <div class="funds-group">
             <label for="amount">AMOUNT</label>
-            <input type="number" id="amount" step="any" min="0" name="amount" placeholder="Enter Amount" required>
+            <input type="number" step="any" min="0" name="amount" placeholder="Enter Amount" required>
         </div>
     
         <div class="funds-actions">

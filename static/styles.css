@@ -1508,7 +1508,28 @@ header.app-header{
     background: #ef4444;
     color: #fff;
 }
-    
+
+.withdraw-status{
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.withdraw-status.Pending{
+    color: orange;
+}
+
+.withdraw-status.Approved{
+    color: green;
+}
+
+.withdraw-status.Rejected{
+    color: red;
+}
+
+.withdraw-status2{
+    color: #999;
+}
+
 .action-form {
     display: flex;
     gap: 8px;

@@ -70,6 +70,17 @@
             </div>
 
             <div class="row">
+                <span>Withdrawal Status</span>
+                {% if latest_withdrawal %}
+                    <span class="withdraw-status {{ latest_withdrawal.status }}">
+                        {{ latest_withdrawal.status }}
+                    </span>
+                {% else %}
+                    <span class="withdraw-status2">No Request Yet</span>  
+                {% endif %}      
+            </div>
+
+            <div class="row">
                 <span>Total PNL</span>
                 <span class="{% if total_pnl >= 0 %}pnl-positive{% else %}pnl-negative{% endif %}">{{ total_pnl | money }}</span>
             </div>
