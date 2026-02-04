@@ -1347,14 +1347,14 @@ def admin_logout():
 #==========================
 class FakeAdmin(UserMixin):
     def __init__(self):
-        self.id = "admin"
+        self.id = 0
         self.email = os.getenv("ADMIN_EMAIL")
         self.is_admin = True
 
 
 @login_manager.user_loader
 def load_user(user_id):
-    if user_id == "admin":
+    if user_id == 0:
         return FakeAdmin()
     return User.query.get(int(user_id))        
 
