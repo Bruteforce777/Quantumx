@@ -1273,6 +1273,9 @@ def log_page_visit():
     if request.endpoint == "static":
         return
     
+    if getattr(current_user, "is_admin", False):
+        return
+    
     ua_string = request.user_agent.string or ""
 
     visit = PageVisit(
@@ -1283,10 +1286,12 @@ def log_page_visit():
         user_agent=ua_string,
         device_type=get_device_type(ua_string),
         timestamp=datetime.utcnow()
-    )   
-    db.session.add(visit)
-    db.session.commit()               
-        
+    )  
+    try: 
+        db.session.add(visit)
+        db.session.commit()               
+    except Exception:
+        db.session.rollback()    
 
 
 @app.route('/admin_page_visits')
