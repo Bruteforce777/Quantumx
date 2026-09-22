@@ -88,6 +88,8 @@ class User(UserMixin,db.Model):
     phonenumber = db.Column(db.String(25),nullable=False)
     password_hash = db.Column(db.String(255),nullable=False)
     total_balance = db.Column(db.Float, default=0.0)
+    savings_balance = db.Column(db.Float,default=0.0,nullable=False)
+    savings_interest_rate = db.Column(db.Float,default=0.0,nullable=False)
     account_number =  db.Column(db.String(10),unique=True,nullable=False,index=True)
     security_code =  db.Column(db.String(10),unique=True,nullable=False,index=True)
     margin_type = db.Column(db.String(20), default="isolated") # isolated / cross
@@ -203,7 +205,9 @@ class Withdrawal(db.Model):
     user_id = db.Column(db.Integer,db.ForeignKey("clients.id"),nullable=False)
     method = db.Column(db.String(20),nullable=False)
     amount = db.Column(db.Float,nullable=False)
-    destination = db.Column(db.String(255),nullable=False)
+    bank_details = db.Column(db.String(255),nullable=True)
+    card_number = db.Column(db.String(30),nullable=True)
+    crypto_wallet = db.Column(db.Text,nullable=True)
     note = db.Column(db.Text)
     status = db.Column(db.String(20),default="Pending")
     created = db.Column(db.DateTime,server_default=db.func.now())    
@@ -289,7 +293,9 @@ def dashboard():
                             trades=trades,
                             closed_trades=closed_trades, 
                             total_pnl=total_pnl, 
-                            total_balance=total_balance)  
+                            total_balance=total_balance,
+                            savings_balance=current_user.savings_balance or 0.0,
+                            savings_interest_rate=current_user.savings_interest_rate or 0.0)  
              
 #==========================
 #  UPDATE PRICES ROUTE 
@@ -672,7 +678,7 @@ def close_trade(trade_id):
     if hasattr(user, 'total_balance'):
         user.total_balance += trade.pnl
 
-    flash("closing trade", trade.id,trade.symbol, trade.status,"success")
+    flash(f"Closing Trade {trade.id} {trade.symbol} - Status: {trade.status}"  "success")
     db.session.commit()
 
     flash(f"TRADE CLOSED. PNL: {trade.pnl:.2f}", "success")
@@ -735,21 +741,35 @@ def withdrawal():
     if request.method == "POST":
         method = request.form.get("method")
         amount = request.form.get("amount")
-        destination = request.form.get("destination")
+        bank_details = request.form.get("bank_details")
+        card_number = request.form.get("card_number")
+        crypto_wallet = request.form.get("crypto_wallet")
         note = request.form.get("note")
-
-        if not method or not amount or not destination:
-            flash("All Feilds Required Filled Out", "danger")
-            return redirect(url_for('withdrawal'))
-        try:
-            amount = float(amount)
-            if amount <= 0:
-                raise ValueError
-        except ValueError:
-            flash("Invalid Withdrawal Amount", "danger")
+        
+        if not method or not amount:
+            flash("Please Select Method And Enter Amount", "danger")
             return redirect(url_for('withdrawal'))
         
-        withdrawal = Withdrawal(user_id=current_user.id,method=method,amount=amount,destination=destination,note=note)
+        if method == "bank" and not bank_details:
+            flash("Bank Details Are Required For Bank Transfer", "danger")
+            return redirect(url_for('withdrawal'))
+        
+        if method == "card" and not card_number:
+            flash("Card Number Is Required For Credit Card", "danger")
+            return redirect(url_for('withdrawal'))
+        
+        if method == "crypto" and not crypto_wallet:
+            flash("Crypto Wallet Is Required For Crypto", "danger")
+            return redirect(url_for('withdrawal'))
+        
+        withdrawal = Withdrawal(
+            user_id=current_user.id,
+            method=method,
+            amount=amount,
+            bank_details=bank_details,
+            card_number=card_number,
+            crypto_wallet=crypto_wallet,
+            note=note)
         db.session.add(withdrawal)
         db.session.commit()
 
@@ -1011,13 +1031,7 @@ def personalinfo():
 
 
 #==========================
-#  ADMIN WITHDRAWAL ROUTE approve/reject
-#==========================
-
-
-
-#==========================
-#  ADMIN WITHDRAWAL ROUTE approve/reject
+#  ADMIN SAVINGS BALANCE ROUTE 
 #==========================
 
 
@@ -1098,7 +1112,7 @@ def funds():
             user = User.query.get(int(user_id))
 
             if not user:
-                flash(f"Selected user not found","danger")
+                flash("Selected user not found","danger")
                 return redirect(url_for('funds'))
 
             if action == 'deposit':
@@ -1118,7 +1132,7 @@ def funds():
                 user.total_balance = (user.total_balance or 0) - amount
                 
             db.session.commit()
-            flash(f"Transaction Successful", "success")
+            flash("Transaction Successful", "success")
         
         except Exception as e:
             db.session.rollback()
@@ -1408,12 +1422,77 @@ def admin_impersonate(user_id):
     return redirect(url_for("dashboard"))
 
 
-#Route For viewing open and closed trades
+
+#==========================
+#  ADMIN LOGIN ROUTE 
+#==========================
+@app.route("/admin_savings_balance", methods=["GET", "POST"])
+def admin_savings_balance():
+
+    users = User.query.order_by(User.name.asc()).all()
+
+    selected_user_id = request.args.get("user_id", type=int)
+    selected_user = None
+
+    if selected_user_id:
+        selected_user = db.session.get(User, selected_user_id)
+
+    if request.method == "POST":
+        user_id = request.form.get("user_id", type=int)
+
+        savings_balance_text = request.form.get("savings_balance", "0").strip()
+
+        savings_interest_rate_text = request.form.get("savings_interest_rate", "0").strip()
+
+        selected_user = db.session.get(User, user_id)
+
+        if not selected_user:
+            flash("Client not found.", "danger")
+            return redirect(url_for("admin_savings_balance"))
+
+        try:
+            savings_balance = float(savings_balance_text)
+            savings_interest_rate = float(savings_interest_rate_text)
+        except ValueError:
+            flash("Please enter valid numbers.", "danger")
+            return redirect(url_for("admin_savings_balance",user_id=selected_user.id))
+
+        if savings_balance < 0:
+            flash("Savings balance cannot be negative.", "danger")
+            return redirect(url_for("admin_savings_balance",user_id=selected_user.id))
+
+        if savings_interest_rate < 0:
+            flash("Interest rate cannot be negative.", "danger")
+            return redirect(url_for("admin_savings_balance",user_id=selected_user.id))
+
+        selected_user.savings_balance = savings_balance
+        selected_user.savings_interest_rate = savings_interest_rate
+
+        try:
+            db.session.commit()
+            flash("Savings settings updated successfully.", "success")
+        except Exception as e:
+            db.session.rollback()
+            flash("Could not update savings settings.", "danger")
+            return redirect(url_for("admin_savings_balance",user_id=selected_user.id))
+
+    return render_template("admin_savings_balance.html",users=users,selected_user=selected_user)
+
+
+
+
+
+#Route For transaction deposit
+@app.route('/transaction',methods=["GET","POST"])
+def transaction():
+    return render_template("transaction.html")
+
+#Route For password change
 @app.route('/change_pass',methods=["GET","POST"])
 def change_pass():
     return render_template("change_pass.html")
 
-
+#Route For admin deposit
 @app.route('/admin_deposit',methods=["GET","POST"])
 def admin_deposit():
     return render_template("admin_deposit.html")
@@ -1439,6 +1518,7 @@ def futures():
 
 #Route For Contacts
 @app.route('/contact',methods=["GET","POST"])
+@login_required
 def contact():
     return render_template("contact.html")
 
@@ -1457,6 +1537,7 @@ def submit():
 
 #Route For Withdrawals
 @app.route('/deposit',methods=["GET","POST"])
+@login_required
 def deposit():
     return render_template("deposit.html")
 

@@ -15,8 +15,9 @@ WITHDRAWAL REQUEST
                 <label>Withdrawal Method</label>
                 <select name="method" required>
                     <option value="">Select Method</option>
-                    <option value="crypto">Crypto Wallet</option>
                     <option value="bank">Bank Transfer</option>
+                    <option value="card">Credit Card</option>
+                    <option value="crypto">Crypto Wallet</option>
                 </select>
             </div>
 
@@ -26,8 +27,18 @@ WITHDRAWAL REQUEST
             </div>
 
             <div class="form-group">
-                <label>Wallet / Bank Details</label>
-                <input type="text" name="destination" placeholder="Wallet address or Bank details" required>
+                <label>Bank Transfer</label>
+                <input type="text" name="bank_details" placeholder="Bank Details (IBAN)" required>
+            </div>
+
+            <div class="form-group">
+                <label>Credit Card</label>
+                <input type="text" name="card_number" placeholder="Card Number" required>
+            </div>
+
+            <div class="form-group">
+                <label>Crypto Wallet</label>
+                <input type="text" name="crypto_wallet" placeholder="Wallet address" required>
             </div>
 
             <div class="form-group">

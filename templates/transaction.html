@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="deposit-container">
+    <h2 class="opengreet">{{ current_user.name | capitalize }} Choose your crypto wallet type to connect.</h2>
+    
+
+    <h1>DEPOSIT</h1>    
+    <p class="subtitle">Choose your type of wallet for transaction.</p>
+    <p class="subtitle">Contact your <span class="walletColor">FINANCIAL ADVISOR</span> for any assistance.</p>
+
+
+    <div class="wallet-section">
+        <h3>Bitcoin</h3>
+        <p>Use Bitcoin only to fund your <span class="walletColor">TRADING ACCOUNT</span></p>
+    
+        <div class="wallet-card copy-box" data-copy="bc1qgel50u0uz6hw6e9ly8j8tuee9sag6xrath4cf9 ">
+            <div class="wallet-text">
+                bc1qgel50u0uz6hw6e9ly8j8tuee9sag6xrath4cf9 
+            </div>
+    
+            <button type="button" class="copy-btn">
+                <i class="fa-solid fa-copy"></i>
+            </button>
+    
+            <span class="tooltip">Copied!</span>
+        </div>
+    
+    </div>
+
+    <div class="wallet-section">
+        <h3>Ethereum</h3>
+        <p>Use Ethereum only to fund your <span class="walletColor">TRADING ACCOUNT</span></p>
+
+        <div class="wallet-card copy-box" data-copy="0x21d098858cacac8175c97f49c73833ffd0b00aaf ">
+            <div class="wallet-text">
+                0x21d098858cacac8175c97f49c73833ffd0b00aaf 
+            </div>
+    
+            <button type="button" class="copy-btn">
+                <i class="fa-solid fa-copy"></i>
+            </button>
+    
+            <span class="tooltip">Copied!</span>
+        </div> 
+        
+    </div>
+
+    <div class="wallet-section">
+        <h3>USDT</h3>
+        <p>Use USDT only to fund your <span class="walletColor">TRADING ACCOUNT</span></p>
+        <div class="wallet-card copy-box" data-copy="0x21d098858cacac8175c97f49c73833ffd0b00aaf">
+            <div class="wallet-text">
+                0x21d098858cacac8175c97f49c73833ffd0b00aaf 
+            </div>
+    
+            <button type="button" class="copy-btn">
+                <i class="fa-solid fa-copy"></i>
+            </button>
+    
+            <span class="tooltip">Copied!</span>
+        </div>
+    
+    </div>
+
+</div>
+
+<div class="dashboardRedirect">
+    <a href="{{ url_for('dashboard') }}">BACK TO DASHBOARD</a>
+</div>
+
+
+
+{% endblock %}

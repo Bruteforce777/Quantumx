@@ -12,7 +12,7 @@
     
     <form method="GET" class="funds-group">
         <label>SELECT USER</label>
-        <select name="user_id" onchange="this.form.submit()" required>
+        <select class="side-input" name="user_id" onchange="this.form.submit()" required>
             <option value="{{ user_id }}">{{current_user.name}} {{ current_user.surname }} ({{ current_user.email}})</option>
             {% for user in users %}
                 <option value="{{ user.id }}">{{ current_user.name }} {{ current_user.surname }} ( {{ user.email }} )</option>

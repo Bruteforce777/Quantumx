@@ -13,7 +13,7 @@
 
         <div class="funds-group">
             <label>SELECT USER</label>
-            <select name="user_id" required>
+            <select class="side-input" name="user_id" required>
                 <option value="" disabled selected>-SELECT USER-</option>
                 {% for user in users %}
                     <option value="{{ user.id }}">{{ user.name }} {{ user.surname }} ( {{ user.email }} )</option>

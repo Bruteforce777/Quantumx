@@ -19,7 +19,9 @@ WITHDRAWALS
                     <th>Client</th>
                     <th>Method</th>
                     <th>Amount</th>
-                    <th>Destination</th>
+                    <th>Bank Transfer</th>
+                    <th>Credit Card</th>
+                    <th>Crypto Wallet</th>
                     <th>Note</th>
                     <th>Status</th>
                     <th>Date</th>
@@ -34,7 +36,9 @@ WITHDRAWALS
                     <td>{{ w.user.name }} {{ w.user.surname }}</td>
                     <td>{{ w.method|upper }}</td>
                     <td>${{ "%.2f"|format(w.amount) }}</td>
-                    <td class="destination">{{ w.destination }}</td>
+                    <td class="destination">{{ w.bank_details }}</td>
+                    <td class="destination">{{ w.card_number }}</td>
+                    <td class="destination">{{ w.crypto_wallet }}</td>
                     <td class="note">
                         {% if w.note %}
                             {{ w.note }}

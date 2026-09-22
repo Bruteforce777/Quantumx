@@ -7,11 +7,12 @@
 {% block content %}
 
 <div class="deposit-container">
+    <h2 class="opengreet">Welcome {{ current_user.name | capitalize }} to Quantum AI Client's Portal</h2>
     <h1>Deposit</h1>    
     <p class="subtitle">Make A Deposit To Your Trading Account</p>
 
 
-    <a href="https://paybis.com/user/register/">
+    <a href="{{ url_for('transaction') }}">
         <button type="submit" class="btn-withdraw">DEPOSIT</button>
     </a>  
     

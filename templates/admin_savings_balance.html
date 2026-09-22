@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Admin – Savings Balance{% endblock %}
+
+{% block content %}
+
+
+<div class="admin-container">
+
+    <h1>Savings Balance</h1>
+    <p class="subtitle">Manage Clients Savings</p>
+</div>    
+    
+<div class="funds-container">
+
+    <form method="POST" action="{{url_for('admin_savings_balance')}}">
+
+        <div class="funds-group">
+            <label>SELECT USER</label>
+            <select class="side-input" name="user_id" required>
+                <option value="" disabled selected>-SELECT USER-</option>
+                {% for user in users %}
+                    <option value="{{ user.id }}">{{ user.name }} {{ user.surname }} ( {{ user.email }} )</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="funds-group">
+            <label for="savings_balance">SAVINGS BALANCE</label>
+            <input type="number" step="any" min="0" name="savings_balance" placeholder="Enter Amount" required>
+        </div>
+
+         <div class="funds-group">
+            <label for="savings_interest_rate">INTEREST RATE</label>
+            <input type="number" step="any" min="0" name="savings_interest_rate" placeholder="Enter Percentage" required>
+        </div>
+    
+        <button type="submit" class="save-savings-btn">UPDATE SAVINGS BALANCE</button>
+        
+
+    </form>
+</div>    
+
+<div class="dashboardRedirect">
+    <a href="{{ url_for('admin_dashboard') }}">ADMIN DASHBOARD</a>
+</div>
+
+
+{% endblock %}

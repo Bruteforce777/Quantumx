@@ -1,8 +1,8 @@
-"""initial schema
+"""Initial Migration
 
-Revision ID: 15011108631d
+Revision ID: b32621101610
 Revises: 
-Create Date: 2026-01-04 19:24:07.181754
+Create Date: 2026-09-17 02:12:42.671558
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '15011108631d'
+revision = 'b32621101610'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -60,7 +60,7 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['clients.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('pagevisit',
+    op.create_table('page_visit',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('path', sa.String(length=255), nullable=False),
@@ -72,7 +72,7 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['clients.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('personalinfo',
+    op.create_table('personal_info',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('fullname', sa.String(length=80), nullable=False),
@@ -141,7 +141,9 @@ def upgrade():
     sa.Column('user_id', sa.Integer(), nullable=False),
     sa.Column('method', sa.String(length=20), nullable=False),
     sa.Column('amount', sa.Float(), nullable=False),
-    sa.Column('destination', sa.String(length=255), nullable=False),
+    sa.Column('bank_details', sa.String(length=255), nullable=True),
+    sa.Column('card_number', sa.String(length=30), nullable=True),
+    sa.Column('crypto_wallet', sa.Text(), nullable=True),
     sa.Column('note', sa.Text(), nullable=True),
     sa.Column('status', sa.String(length=20), nullable=True),
     sa.Column('created', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
@@ -158,8 +160,8 @@ def downgrade():
     op.drop_table('user_files')
     op.drop_table('trade')
     op.drop_table('portfolio')
-    op.drop_table('personalinfo')
-    op.drop_table('pagevisit')
+    op.drop_table('personal_info')
+    op.drop_table('page_visit')
     op.drop_table('help_messages')
     op.drop_table('deposit')
     with op.batch_alter_table('clients', schema=None) as batch_op:
